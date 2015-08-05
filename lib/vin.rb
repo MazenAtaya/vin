@@ -1,6 +1,7 @@
 require "vin/version"
-require "vin/address"
-require "vin/subscriber"
+require "vin/model/address"
+require "vin/model/subscriber"
 module Vin
   # Your code goes here...
+
 end
