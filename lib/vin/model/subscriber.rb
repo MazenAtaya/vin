@@ -13,4 +13,9 @@ class Subscriber
     @facebook = facebook
     @twitter = twitter
   end
+
+  def to_h
+    {'name' => @name, 'email' => @email, 'address' => @address.to_h, 'phone' => @phone, 'facebook' => @facebook, 'twitter' => @twitter}
+  end
+
 end

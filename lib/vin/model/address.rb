@@ -7,4 +7,9 @@ class Address
     @state = state
     @zip = zip
   end
+
+  def to_h
+    {'street' => @street, 'city' => @city, 'state' => @state, 'zip' => @zip}
+  end
+
 end

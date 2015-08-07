@@ -38,7 +38,16 @@ class SubsciberAction
     end
 
     {'errors' => errors}
+  end
 
+  def get_sub(subscribers, id)
+    sub =
+    subscribers.each do |sub|
+      if sub.id == id
+        return sub.to_h
+      end
+    end
+    {'errors' => [(Error.new 8, 'Could not locate the subscriber with the given id')]}
   end
 
 

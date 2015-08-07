@@ -85,7 +85,18 @@ describe SubsciberAction do
     expect(subs[0].name).to eq(@sub.name)
   end
 
+  it 'should return the subscriber with the given id if it exists' do
+    subs = [@sub]
+    response = @sub_action.get_sub(subs, @sub.id)
+    expect(response['errors']).to be_nil
+    expect(response['email']).to eq(@sub.email)
+  end
 
+  it 'should return an error when the subscriber does not exist' do
+    subs = [@sub]
+    response = @sub_action.get_sub(subs, @sub.id + 1)
+    expect(response['errors'].length).to eq(1)
+  end
 
 
 
