@@ -8,11 +8,9 @@ module Validator
     def validate_name (name, errors)
       if (name)
         if (name.length < NAME_MIN_LENGTH)
-        #  errors << (Error.new 1, "Name cannot be less than 5 chars")
         errors << {'code' => 1, 'message' => "Name cannot be less than 5 chars"}
         end
         if (name.length > NAME_MAX_LENGTH)
-          #errors << ( Error.new 2, "Name cannot be more than 50 chars" )
           errors << {'code' => 2, 'message' => "Name cannot be more than 50 chars" }
         end
       else
