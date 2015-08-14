@@ -169,6 +169,7 @@ describe SubsciberAction do
     expect(response['date']).to eq(Time.now.strftime("%d-%m-%Y"))
   end
 
+  # delete note
   it 'Should delete a note when it exists' do
     subs = [@sub]
     shipment = Shipment.new :FEB, '2015'
@@ -178,6 +179,22 @@ describe SubsciberAction do
     response = @sub_action.delete_note(subs, @sub.id, shipment.id, note.id )
     expect(@sub.shipments[0].notes.length).to eq(0)
     expect(response).to eq({})
+  end
+
+  # get wines
+  it 'Should return all the wines that are shipped to a particular subscriber' do
+    subs = [@sub]
+    shipment1 = Shipment.new :FEB, '2015'
+    shipment2 = Shipment.new :MAR, '2015'
+    shipment1.wines = [Wine.new, Wine.new, Wine.new]
+    shipment2.wines = [Wine.new, Wine.new, Wine.new]
+    @sub.add_shipment shipment1
+    @sub.add_shipment shipment2
+    response = @sub_action.get_wines_shipped_to_sub(subs, @sub.id)
+    expect(response['wines'].length).to eq(6)
+    expect(response['wines'][0]['label_name']).to eq(Wine.new.label_name)
+
+
   end
 
 

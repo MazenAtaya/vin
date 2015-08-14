@@ -168,6 +168,23 @@ class SubsciberAction
     found_it ? {} : {'errors' => [(Error.new 9, "One of the resources does not exists")]}
   end
 
-
+def get_wines_shipped_to_sub(subs, sub_id)
+  wines = []
+  ids = Set.new
+  sub = find_object_by_id subs, sub_id
+  if sub
+    sub.shipments.each do |ship|
+      ship.wines.each do |wine|
+        if !ids.include? wine.id
+          wines << wine
+          ids.add wine.id
+        end
+      end
+    end
+  end
+  {
+    'wines' => wines.map { |e| {'id' => e.id, 'label_name' => e.label_name}  }
+  }
+end
 
 end
