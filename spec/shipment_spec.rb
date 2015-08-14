@@ -29,9 +29,9 @@ describe Shipment do
 
   it 'Should add a note to notes when add_note is called' do
     shipment = Shipment.new :AUGUST, '2015'
-    shipment.add_note("This is a note")
+    shipment.add_note(Note.new)
     expect(shipment.notes.length).to eq(1)
-    expect(shipment.notes[0]).to eq("This is a note")
+    expect(shipment.notes[0].content).to eq("")
   end
 
   it 'Should have an array of wines' do

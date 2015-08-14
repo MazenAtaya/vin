@@ -16,7 +16,9 @@ class Shipment
   end
 
   def add_note(note)
-    @notes << note
+    if note.class == Note
+      @notes << note
+    end
   end
 
   def to_h
@@ -26,7 +28,8 @@ class Shipment
       'status' => @status.to_s,
       'date' => @date.strftime("%d-%m-%Y"),
       'type' => @monthly_selection.selection_type.to_s,
-      'wines' => @wines.map { |e| e.to_h  }
+      'wines' => @wines.map { |e| e.to_h  },
+      'notes' => @notes.map { |e| e.to_h  }
     }
   end
 

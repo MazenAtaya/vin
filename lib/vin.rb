@@ -5,6 +5,7 @@ require 'vin/model/error'
 require 'vin/model/wine'
 require 'vin/model/monthly_selection'
 require 'vin/model/shipment'
+require 'vin/model/note'
 require 'vin/validator/validator'
 require 'vin/action/subscriber_action'
 
