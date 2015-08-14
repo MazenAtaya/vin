@@ -14,8 +14,6 @@ class SubsciberAction
 
   end
 
-
-
   def edit_sub (subscribers, id, sub)
     found_it = false
     errors = []
@@ -107,5 +105,69 @@ class SubsciberAction
     end
     found_it ? {} : {'errors' => [(Error.new 9, "One of the resources does not exist")]}
   end
+
+  def get_ship_notes(subscribers, sub_id, ship_id)
+    ship = nil
+    sub = find_object_by_id subscribers, sub_id
+    if sub
+      ship = find_object_by_id sub.shipments, ship_id
+    end
+    ship ? {'notes' => ship.notes.map { |e| e.to_h }} : {'errors' => [(Error.new 9, "One of the resources does not exists")]}
+  end
+
+  def add_note_to_ship(subscribers, sub_id, ship_id, content)
+    ship = nil
+    sub = find_object_by_id subscribers, sub_id
+    if sub
+      ship = find_object_by_id sub.shipments, ship_id
+    end
+    if ship
+      note = Note.new content
+      ship.add_note note
+    end
+    note ? {'id' => note.id} : {'errors' => [(Error.new 9, "One of the resources does not exists")]}
+  end
+
+  def get_note(subscribers, sub_id, ship_id, note_id)
+    note = nil
+    sub = find_object_by_id subscribers, sub_id
+    if sub
+      ship = find_object_by_id sub.shipments, ship_id
+      if ship
+        note = find_object_by_id ship.notes, note_id
+      end
+    end
+    note ? note.to_h : {'errors' => [(Error.new 9, "One of the resources does not exists")]}
+  end
+
+  def update_note(subs, sub_id, ship_id, note_id, content)
+    note = nil
+    sub = find_object_by_id subs, sub_id
+    if sub
+      ship = find_object_by_id sub.shipments, ship_id
+      if ship
+        note = find_object_by_id ship.notes, note_id
+      end
+    end
+    if note
+      note.content = content
+      return {}
+    end
+    {'errors' => [(Error.new 9, "One of the resources does not exists")]}
+  end
+
+  def delete_note(subs, sub_id, ship_id, note_id)
+    found_it = false
+    sub = find_object_by_id subs, sub_id
+    if sub
+      ship = find_object_by_id sub.shipments, ship_id
+      if ship
+        found_it = ship.delete_note note_id
+      end
+    end
+    found_it ? {} : {'errors' => [(Error.new 9, "One of the resources does not exists")]}
+  end
+
+
 
 end

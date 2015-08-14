@@ -20,6 +20,19 @@ class Shipment
       @notes << note
     end
   end
+  def delete_note(note_id)
+    note = nil
+    @notes.each do |n|
+      if n.id == note_id
+        note = n
+        break
+      end
+    end
+    if note
+      @notes.delete(note)
+    end
+    note ? true : false
+  end
 
   def to_h
     {

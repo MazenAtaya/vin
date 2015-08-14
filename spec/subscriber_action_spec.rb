@@ -157,6 +157,28 @@ describe SubsciberAction do
     expect(response['wines'][1]).to eq(shipment.wines[1].to_h)
   end
 
+  it 'Should return the note when it exists' do
+    subs = [@sub]
+    shipment = Shipment.new :FEB, '2015'
+    note = Note.new "This is a note."
+    shipment.add_note note
+    @sub.add_shipment shipment
+    response = @sub_action.get_note(subs, @sub.id, shipment.id, note.id )
+    expect(response['id']).to eq(note.id)
+    expect(response['content']).to eq("This is a note.")
+    expect(response['date']).to eq(Time.now.strftime("%d-%m-%Y"))
+  end
+
+  it 'Should delete a note when it exists' do
+    subs = [@sub]
+    shipment = Shipment.new :FEB, '2015'
+    note = Note.new "This is a note."
+    shipment.add_note note
+    @sub.add_shipment shipment
+    response = @sub_action.delete_note(subs, @sub.id, shipment.id, note.id )
+    expect(@sub.shipments[0].notes.length).to eq(0)
+    expect(response).to eq({})
+  end
 
 
 end

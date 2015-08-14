@@ -3,7 +3,7 @@ class Note
   attr_reader :id
   attr_accessor :date, :content
 
-  def initialize(date=Time.now, content="")
+  def initialize(content="", date=Time.now )
     @id = @@ID
     @@ID += 1
     @date = date
