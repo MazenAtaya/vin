@@ -98,7 +98,31 @@ describe SubsciberAction do
     expect(response['errors'].length).to eq(1)
   end
 
+  # get_sub_shipments
+  it 'Should return nil when subscriber id is invalid' do
+    subs = [@sub]
+    response = @sub_action.get_sub_shipments(subs, @sub.id + 1)
+    expect(response).to be_nil()
+  end
 
+  it 'Should return empty array when subscriber id is valid but it does not have any shipments' do
+    subs = [@sub]
+    response = @sub_action.get_sub_shipments(subs, @sub.id)
+    expect(response['shipments']).to eq([])
+  end
+
+  it 'Should return an array of shipments when the subscribr id is valid and it has shipments' do
+    subs = [@sub]
+    shipment = Shipment.new :FEB, '2015'
+    shipment.wines = [Wine.new, Wine.new]
+    shipment.notes = ["Hello", "World"]
+    @sub.add_shipment shipment
+    response = @sub_action.get_sub_shipments(subs, @sub.id)
+    expect(response['shipments'].length).to eq(1)
+    expect(response['shipments'][0]['id']).to eq(shipment.id)
+    expect(response['shipments'][0]['selection_month']).to eq('FEB/2015')
+    expect(response['shipments'][0]['status']).to eq(:PENDING.to_s)
+  end
 
 
 

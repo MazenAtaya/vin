@@ -13,7 +13,7 @@ describe Shipment do
 
   it 'Should have default value for delivery_status' do
     shipment = Shipment.new :AUGUST, '2015'
-    expect(shipment.delivery_status).to eq(:PENDING)
+    expect(shipment.status).to eq(:PENDING)
   end
 
   it 'Should have an array of notes' do

@@ -21,6 +21,7 @@ class Subscriber
   def add_shipment(shipment)
     if(shipment.class == Shipment)
       @shipments << shipment
+    end
   end
 
   def to_h

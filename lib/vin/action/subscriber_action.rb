@@ -50,5 +50,23 @@ class SubsciberAction
     {'errors' => [(Error.new 8, 'Could not locate the subscriber with the given id')]}
   end
 
+  def get_sub_shipments(subscribers, sub_id)
+    shipments = []
+    found_it = false
+    subscribers.each do |sub|
+      if (sub.id == sub_id)
+        found_it = true
+        sub.shipments.each do |ship|
+          shipments << {'id' => ship.id, 'selection_month'=> ship.month.to_s + '/' + ship.year, 'status' => ship.status.to_s}
+        end
+      end
+    end
+
+    return nil unless found_it
+
+    {'shipments' => shipments }
+
+  end
+
 
 end
