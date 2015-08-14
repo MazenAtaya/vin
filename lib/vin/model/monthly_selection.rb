@@ -1,4 +1,4 @@
-class Delivery
+class MonthlySelection
 
   attr_accessor :day_of_week, :time_of_day, :selection_type
 
