@@ -8,4 +8,8 @@ class MonthlySelection
     @selection_type = selection_type
   end
 
+  def to_h
+    { 'dow' => @day_of_week.to_s, 'tod' => @time_of_day.to_s, 'selection_type' => @selection_type.to_s } 
+  end
+
 end
