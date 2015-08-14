@@ -15,8 +15,6 @@ describe Wine do
     expect(my_wine.maker).to eq('Sterling')
     expect(my_wine.region).to eq('Napa')
     expect(my_wine.country).to eq('USA')
-
-
   end
 
 end
