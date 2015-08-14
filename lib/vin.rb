@@ -3,6 +3,8 @@ require "vin/model/address"
 require "vin/model/subscriber"
 require 'vin/model/error'
 require 'vin/model/wine'
+require 'vin/model/delivery'
+require 'vin/model/shipment'
 require 'vin/validator/validator'
 require 'vin/action/subscriber_action'
 
