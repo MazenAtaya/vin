@@ -124,6 +124,39 @@ describe SubsciberAction do
     expect(response['shipments'][0]['status']).to eq(:PENDING.to_s)
   end
 
+  # get_sub_shipment
+  it 'Should return nil when providing invalid shipment id but valid subscribr id ' do
+    subs = [@sub]
+    shipment = Shipment.new :FEB, '2015'
+    @sub.add_shipment shipment
+    response = @sub_action.get_sub_shipment(subs, @sub.id, shipment.id + 1)
+    expect(response).to be_nil()
+  end
+
+  it 'Should return nil when providing valid shipment id but invalid subscribr id ' do
+    subs = [@sub]
+    shipment = Shipment.new :FEB, '2015'
+    @sub.add_shipment shipment
+    response = @sub_action.get_sub_shipment(subs, @sub.id + 1, shipment.id)
+    expect(response).to be_nil()
+  end
+
+  it 'Should return the shipment when both the shipment id and subscribr id are valid' do
+    subs = [@sub]
+    shipment = Shipment.new :FEB, '2015'
+    @sub.add_shipment shipment
+    shipment.wines = [Wine.new, Wine.new]
+    response = @sub_action.get_sub_shipment(subs, @sub.id, shipment.id)
+    expect(response['id']).to eq(shipment.id)
+    expect(response['selection_month']).to eq('FEB/2015')
+    expect(response['status']).to eq(:PENDING.to_s)
+    expect(response['date']).to eq(Time.now.strftime("%d-%m-%Y"))
+    expect(response['type']).to eq(:RW.to_s)
+    expect(response['wines'].length).to eq(2)
+    expect(response['wines'][0]).to eq(shipment.wines[0].to_h)
+    expect(response['wines'][1]).to eq(shipment.wines[1].to_h)
+  end
+
 
 
 end

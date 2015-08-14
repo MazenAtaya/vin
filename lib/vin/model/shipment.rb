@@ -19,5 +19,16 @@ class Shipment
     @notes << note
   end
 
+  def to_h
+    {
+      'id' => @id,
+      'selection_month' => @month.to_s + '/' + @year,
+      'status' => @status.to_s,
+      'date' => @date.strftime("%d-%m-%Y"),
+      'type' => @monthly_selection.selection_type.to_s,
+      'wines' => @wines.map { |e| e.to_h  }
+    }
+  end
+
 
 end

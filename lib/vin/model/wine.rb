@@ -17,4 +17,25 @@ class Wine
     @maker = maker
     @year = year
   end
+
+  def to_h
+    {
+      'id' => @id,
+      'label_name' => @label_name,
+      'type' => @type,
+      'variety' => @variety,
+      'grape' => @grape,
+      'region' => @region,
+      'country' => @country,
+      'maker' => @maker,
+      'year' => @year
+    }
+  end
+
+  class << self
+    def to_h
+      
+    end
+  end
+
 end

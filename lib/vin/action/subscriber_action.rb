@@ -59,6 +59,7 @@ class SubsciberAction
         sub.shipments.each do |ship|
           shipments << {'id' => ship.id, 'selection_month'=> ship.month.to_s + '/' + ship.year, 'status' => ship.status.to_s}
         end
+        break
       end
     end
 
@@ -68,5 +69,19 @@ class SubsciberAction
 
   end
 
+  def get_sub_shipment( subscribers, sub_id, ship_id)
+    shipment = nil
+    subscribers.each do |sub|
+      if (sub.id == sub_id)
+        sub.shipments.each do |ship|
+          if (ship.id == ship_id)
+            shipment = ship
+            break
+          end
+        end
+      end
+    end
+    shipment ? shipment.to_h : nil
+  end
 
 end
