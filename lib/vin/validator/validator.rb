@@ -72,6 +72,9 @@ module Validator
       errors = validate_address(subscriber.address, errors)
     end
 
+    def validate_admin(admin)
+      []
+    end
   end
 
 end

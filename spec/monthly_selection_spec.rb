@@ -2,11 +2,15 @@ require 'spec_helper'
 
 describe MonthlySelection do
 
-  it 'Should have default values' do
-    my_monthly_selection = MonthlySelection.new
-    expect(my_monthly_selection.day_of_week).to eq(:SATURDAY)
-    expect(my_monthly_selection.time_of_day).to eq(:AM)
-    expect(my_monthly_selection.selection_type).to eq(:RW)
+  it 'Should just work' do
+    expect(true).to eq(true)
+  end
+
+  it 'should take four arguments and keep them' do
+    monthly_selection = MonthlySelection.new :JAN, "2015", :RW, []
+    expect(monthly_selection.type).to eq(:RW)
+    expect(monthly_selection.year).to eq("2015")
+    expect(monthly_selection.month).to eq(:JAN )
   end
 
 end

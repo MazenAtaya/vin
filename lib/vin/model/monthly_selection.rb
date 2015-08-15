@@ -1,15 +1,24 @@
 class MonthlySelection
+  attr_reader :id
+  attr_accessor :month, :year, :type, :wines, :date
 
-  attr_accessor :day_of_week, :time_of_day, :selection_type
+  @@ID = 0
 
-  def initialize(day_of_week=:SATURDAY, time_of_day=:AM, selection_type=:RW)
-    @day_of_week = day_of_week
-    @time_of_day = time_of_day
-    @selection_type = selection_type
+  def initialize(month, year, type, wines)
+    @id = @@ID
+    @@ID += 1
+    @month = month
+    @year = year
+    @type = type
+    @wines = wines
+    @date = Time.now
   end
 
-  def to_h
-    { 'dow' => @day_of_week.to_s, 'tod' => @time_of_day.to_s, 'selection_type' => @selection_type.to_s } 
+  def add_wine(wine)
+    if wine.class == Wine
+      wines << wine
+    end
   end
+
 
 end

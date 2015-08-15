@@ -1,6 +1,6 @@
 class Wine
   @@ID = 0
-  @@number_of_ratings = 0
+  @@ratings_count = 0
   @@rating
   attr_reader :id
   attr_accessor :label_name, :type, :variety, :grape, :region, :country, :maker, :year
@@ -56,12 +56,13 @@ class Wine
 def add_rating rating
   if rating <= 10 && rating >= 0
     @rating += rating.to_i
+    @ratings_count += 1
     return true
   end
 end
 
 def rating
-  @@number_of_ratings == 0 ? 0 : @rating / @@number_of_ratings
+  @@ratings_count == 0 ? 0 : @rating / @@ratings_count
 end
 
 end
