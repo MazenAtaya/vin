@@ -191,10 +191,24 @@ describe SubsciberAction do
     @sub.add_shipment shipment1
     @sub.add_shipment shipment2
     response = @sub_action.get_wines_shipped_to_sub(subs, @sub.id)
-    expect(response['wines'].length).to eq(6)
-    expect(response['wines'][0]['label_name']).to eq(Wine.new.label_name)
+    expect(response.length).to eq(6)
+    expect(response[0].label_name).to eq(Wine.new.label_name)
+  end
 
-
+  # get wine shipped to sub
+  it 'Should return the wine when it exists' do
+    subs = [@sub]
+    shipment1 = Shipment.new :FEB, '2015'
+    shipment2 = Shipment.new :MAR, '2015'
+    my_wine = Wine.new
+    shipment1.wines = [Wine.new, Wine.new, Wine.new]
+    shipment2.wines = [Wine.new, Wine.new, my_wine]
+    @sub.add_shipment shipment1
+    @sub.add_shipment shipment2
+    response = @sub_action.get_wine_shipped_to_sub(subs, @sub.id, my_wine.id)
+    expect(response.id).to eq(my_wine.id)
+    expect(response.label_name).to eq(my_wine.label_name)
+    expect(response.year).to eq(my_wine.year)
   end
 
 

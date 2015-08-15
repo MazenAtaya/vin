@@ -182,9 +182,94 @@ def get_wines_shipped_to_sub(subs, sub_id)
       end
     end
   end
-  {
-    'wines' => wines.map { |e| {'id' => e.id, 'label_name' => e.label_name}  }
-  }
+  wines
+end
+
+def get_wine_shipped_to_sub(subs, sub_id, wine_id)
+  my_wine = nil
+  found_it = false
+  sub = find_object_by_id subs, sub_id
+  if sub
+    sub.shipments.each do |ship|
+      ship.wines.each do |wine|
+        if wine.id == wine_id
+          my_wine = wine
+          found_it = true
+          break
+        end
+      end
+      break unless !found_it
+    end
+  end
+  my_wine
+end
+
+def get_wine_notes(subs, sub_id, wine_id)
+  wine = get_wine_shipped_to_sub subs, sub_id, wine_id
+  wine.notes unless wine
+end
+
+def add_note_to_wine(subs, sub_id, wine_id, content)
+  notes = get_wine_notes subs, sub_id, wine_id
+  if notes
+    note = Note.new content
+    notes << note
+  end
+  notes ? true : false
+end
+
+def get_wine_note(subs, sub_id, wine_id, note_id)
+  note = nil
+  notes = get_wine_notes subs, sub_id, wine_id
+  if notes
+    note = find_object_by_id notes, note_id
+  end
+  note
+end
+
+def edit_wine_note (subs, sub_id, wine_id, note_id, content)
+  note = get_wine_note subs, sub_id, wine_id, note_id
+  if note
+    note.content = content
+  end
+  note ? true : false
+end
+
+def delete_wine_note(subs, sub_id, wine_id, note_id)
+  wine = get_wine_shipped_to_sub subs, sub_id, wine_id
+  if wine
+    wine.delete_note note_id
+  end
+end
+
+def get_wine_rating(subs, sub_id, wine_id)
+  wine = get_wine_shipped_to_sub subs, sub_id, wine_id
+  if wine
+    wine.rating
+  end
+end
+
+def add_wine_rating(subs, sub_id, wine_id, rating)
+  wine = get_wine_shipped_to_sub subs, sub_id, wine_id
+  if wine
+    wine.add_rating rating
+  end
+end
+
+def get_monthly_selection(subs, sub_id)
+  sub = find_object_by_id subs, sub_id
+  if sub
+    sub.monthly_selection
+  end
+end
+
+def update_monthly_selection(subs, sub_id, monthly_selection)
+  sub = find_object_by_id subs, sub_id
+  if sub
+    sub.monthly_selection.day_of_week = monthly_selection.day_of_week
+    sub.monthly_selection.time_of_day = monthly_selection.time_of_day
+    true
+  end
 end
 
 end
