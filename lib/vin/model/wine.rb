@@ -65,4 +65,16 @@ def rating
   @@ratings_count == 0 ? 0 : @rating / @@ratings_count
 end
 
+def is_match?(query)
+  query = query.strip.downcase
+  @label_name.downcase.include?(query) ||
+  @type.downcase.include?(query) ||
+  @variety.downcase.include?(query) ||
+  @grape.downcase.include?(query) ||
+  @region.downcase.include?(query) ||
+  @country.downcase.include?(query) ||
+  @maker.downcase.include?(query) ||
+  @year.include?(query)
+end
+
 end
