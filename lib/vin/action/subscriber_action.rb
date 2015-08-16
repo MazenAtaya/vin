@@ -268,4 +268,8 @@ def update_monthly_selection(subs, sub_id, monthly_selection)
   end
 end
 
+def get_wine(wines, wine_id)
+  find_object_by_id wines, wine_id
+end
+
 end
