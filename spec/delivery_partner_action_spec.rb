@@ -21,4 +21,12 @@ describe DeliveryPartnerAction do
     expect(response.length).to eq(0)
   end
 
+  it 'Should return the receipt with the provided id' do
+    receipt = Receipt.new 12, "Mazen Ataya"
+    receipts = [receipt]
+    response = DeliveryPartnerAction.new.get_receipt_by_id receipts, receipt.id
+    expect(response).to_not be_nil
+    expect(response.id).to eq(receipt.id)
+  end
+
 end

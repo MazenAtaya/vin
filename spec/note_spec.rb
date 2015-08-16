@@ -9,3 +9,10 @@ describe Note do
 
 
 end
+
+describe "Note#something" do
+  it 'should just work' do
+    expect(true).to eq(true)
+  end
+
+end
