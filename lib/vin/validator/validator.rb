@@ -75,6 +75,11 @@ module Validator
     def validate_admin(admin)
       []
     end
+
+    def validate_monthly_selection(monthly_selection)
+      []
+    end
+
   end
 
 end

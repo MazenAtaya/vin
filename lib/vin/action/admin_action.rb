@@ -33,4 +33,14 @@ class AdminAction
   def get_monthly_selection(monthly_selections, monthly_selection_id)
     find_object_by_id monthly_selections, monthly_selection_id
   end
+
+  def add_monthly_selection(monthly_selections, monthly_selection)
+    errors = Validator::validate_monthly_selection(monthly_selection)
+    if errors.length == 0
+      m_s = MonthlySelection.new monthly_selection.month, monthly_selection.year, monthly_selection.type, monthly_selection.wines
+      monthly_selections << m_s
+    end
+    errors
+  end
+  
 end
