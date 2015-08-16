@@ -272,4 +272,7 @@ class SubsciberAction
     find_object_by_id wines, wine_id
   end
 
+  def search(subs, wines, notes, query)
+
+  end
 end

@@ -12,4 +12,10 @@ class Address
     {'street' => @street, 'city' => @city, 'state' => @state, 'zip' => @zip}
   end
 
+  def is_match?(query)
+    query.strip!
+    query.downcase!
+    @street.downcase.include?(query) || @city.downcase.include?(query) || @state.downcase.include?(query) || @zip.include?(query)
+  end
+
 end

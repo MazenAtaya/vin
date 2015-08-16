@@ -11,7 +11,7 @@ class Subscriber
     @name = name
     @email = email
     @address = address
-    @phone = phone
+    @phone = Phonelib.parse(phone).sanitized
     @facebook = facebook
     @twitter = twitter
     @delivery = Delivery.new
@@ -26,6 +26,16 @@ class Subscriber
 
   def to_h
     {'name' => @name, 'email' => @email, 'address' => @address.to_h, 'phone' => @phone, 'facebook' => @facebook, 'twitter' => @twitter}
+  end
+
+  def is_match?(query)
+    query = query.strip.downcase
+    @name.downcase.include?(query)||
+    @email.downcase.include?(query)||
+    @address.is_match?(query)||
+    @phone.downcase.include?(query)||
+    @facebook.downcase.include?(query)||
+    @twitter.downcase.include?(query)
   end
 
 end
