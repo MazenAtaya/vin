@@ -1,12 +1,7 @@
-class AdminAction
+require 'vin/helpers/helper_methods'
 
-  def find_object_by_id(objects, id)
-    objects.each do |obj|
-      if (obj.id == id)
-        return obj
-      end
-    end
-  end
+class AdminAction
+  include Helpers
 
   def add_admin(admins, admin)
     errors = Validator::validate_admin admin

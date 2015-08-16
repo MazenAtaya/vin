@@ -1,4 +1,8 @@
+require 'vin/helpers/helper_methods'
+
 class SubsciberAction
+
+  include Helpers
 
   def add_sub (subscribers, sub)
     errors = Validator.validate_sub(sub)
@@ -66,14 +70,6 @@ class SubsciberAction
 
     {'shipments' => shipments }
 
-  end
-
-  def find_object_by_id(objects, id)
-    objects.each do |obj|
-      if (obj.id == id)
-        return obj
-      end
-    end
   end
 
   def get_sub_shipment( subscribers, sub_id, ship_id)

@@ -10,8 +10,10 @@ require 'vin/model/note'
 require 'vin/model/admin'
 require 'vin/validator/validator'
 require 'vin/action/subscriber_action'
+require 'vin/action/delivery_partner_action'
+require 'vin/model/receipt'
+require 'vin/helpers/helper_methods'
 
 module Vin
-  # Your code goes here...
 
 end
