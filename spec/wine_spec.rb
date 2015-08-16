@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Wine do
 
   it 'should do something useful' do
-    expect(true).to eq(true)
+    expect(5).to be >= 3
   end
 
   it 'Should give default values' do
