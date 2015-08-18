@@ -1,6 +1,13 @@
 require 'spec_helper'
 
 describe Shipment do
+
+  before :each do
+    wine = Wine.new "The Mission", "Table", "Red", "Cabernet Sauvignon", "Napa", "USA", "Sterling", "2011"
+    note = Note.new "This is a note."
+    @ship = Shipment.new :AUG, '2015', :RW, :PENDING, Time.now, [wine], [note]
+  end
+
   it 'Should do something useful' do
     expect(true).to eq(true)
   end
@@ -39,6 +46,27 @@ describe Shipment do
     expect(shipment).to respond_to(:wines)
     expect(shipment.wines.class).to eq(Array)
   end
+
+    it 'Should return true when the query string is a match for the month' do
+      expect(@ship.is_match? "aug").to eq(true)
+    end
+
+    it 'Should return true when the query string is a match for the year' do
+      expect(@ship.is_match? "2015").to eq(true)
+    end
+
+    it 'Should return true when the query string is a match for the type' do
+      expect(@ship.is_match? "RW").to eq(true)
+    end
+    it 'Should return true when the query string is a match for the status' do
+      expect(@ship.is_match? "pendin").to eq(true)
+    end
+    it 'Should return true when the query string is a match for one of the wines' do
+      expect(@ship.is_match? "ster").to eq(true)
+    end
+    it 'Should return true when the query string is a match for one of the notes' do
+      expect(@ship.is_match? "note").to eq(true)
+    end
 
 
 end

@@ -20,6 +20,11 @@ class Shipment
       @notes << note
     end
   end
+
+  def date
+    @date.strftime("%d-%m-%Y")
+  end
+
   def delete_note(note_id)
     note = nil
     @notes.each do |n|
@@ -44,6 +49,17 @@ class Shipment
       'wines' => @wines.map { |e| e.to_h  },
       'notes' => @notes.map { |e| e.to_h  }
     }
+  end
+
+  def is_match?(query)
+    query = query.strip.downcase
+    @month.to_s.downcase.include?(query) ||
+    @year.include?(query) ||
+    @type.to_s.downcase.include?(query) ||
+    @status.to_s.downcase.include?(query) ||
+    self.date.include?(query) ||
+    @wines.any? { |wine| wine.is_match?(query) } ||
+    @notes.any? { |note| note.is_match?(query) }
   end
 
 

@@ -51,7 +51,7 @@ describe Wine do
     expect(@wine.is_match? "ster").to eq(true)
   end
   it 'Should return true when the query string is a match for the year' do
-    expect(@wine.is_match? "01").to eq(true)
+    expect(@wine.is_match? "20").to eq(true)
   end
 
 end

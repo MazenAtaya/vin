@@ -3,10 +3,10 @@ class Note
   attr_reader :id
   attr_accessor :date, :content
 
-  def initialize(content="", date=Time.now )
+  def initialize(content="")
     @id = @@ID
     @@ID += 1
-    @date = date
+    @date = Time.now
     @content = content
   end
 
@@ -20,6 +20,11 @@ class Note
       'date' => self.date,
       'content' => @content
     }
+  end
+
+  def is_match?(query)
+    query = query.strip.downcase
+    @content.downcase.include?(query) || self.date.include?(query)
   end
 
 end
