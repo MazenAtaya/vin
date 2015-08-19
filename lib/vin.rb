@@ -22,7 +22,7 @@ module Vin
   attr_accessor :subscribers, :admins, :receipts, :subsciber_action, :admin_action, :deliver_action, :monthly_selections
 
   def initialize()
-    @subscibers = Array.new
+    @subscribers = Array.new
     @admins = Array.new
     @receipts = Array.new
     @subsciber_action = SubsciberAction.new
