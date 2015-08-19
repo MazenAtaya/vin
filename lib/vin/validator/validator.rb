@@ -46,16 +46,16 @@ module Validator
 
     def validate_address (address, errors)
       if (address)
-        if (!address.street || address.street.length == 0)
+        if (!address['street'] || address['street'].length == 0)
           errors << (Error.new 9, "street is required")
         end
-        if (!address.city || address.city.length == 0)
+        if (!address['city'] || address['city'].length == 0)
           errors << (Error.new 9, "street is required")
         end
-        if (!address.state || address.state.length == 0)
+        if (!address['state'] || address['state'].length == 0)
           errors << (Error.new 9, "state is required")
         end
-        if (!address.zip || address.zip.length == 0)
+        if (!address['zip'] || address['zip'].length == 0)
           errors << (Error.new 9, "zip is required")
         end
       else
