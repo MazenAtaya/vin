@@ -1,5 +1,5 @@
 class Subscriber
-  @@ID = 0
+  @@ID = 1
   attr_reader :id
   attr_accessor :name, :email, :address, :phone, :facebook, :twitter
   attr_accessor :delivery
@@ -25,7 +25,14 @@ class Subscriber
   end
 
   def to_h
-    {'name' => @name, 'email' => @email, 'address' => @address.to_h, 'phone' => @phone, 'facebook' => @facebook, 'twitter' => @twitter}
+    {
+      'name' => @name,
+      'email' => @email,
+      'address' => @address.to_h,
+      'phone' => @phone,
+      'facebook' => @facebook || "",
+      'twitter' => @twitter || ""
+    }
   end
 
   def is_match?(query)

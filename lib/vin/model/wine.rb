@@ -1,5 +1,5 @@
 class Wine
-  @@ID = 0
+  @@ID = 1
   @@ratings_count = 0
   @@rating
   attr_reader :id

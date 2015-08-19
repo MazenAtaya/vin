@@ -1,5 +1,5 @@
 class Receipt
-  @@ID = 0
+  @@ID = 1
   attr_reader :id, :date
   attr_accessor :sub_id, :recipient_name
 

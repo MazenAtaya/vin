@@ -1,7 +1,7 @@
 class Admin
   attr_accessor :name
   attr_reader :id, :date
-  @@ID = 0
+  @@ID = 1
 
   def initialize(name="")
     @name = name

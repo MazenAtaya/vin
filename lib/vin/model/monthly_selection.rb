@@ -2,7 +2,7 @@ class MonthlySelection
   attr_reader :id
   attr_accessor :month, :year, :type, :wines, :date
 
-  @@ID = 0
+  @@ID = 1
 
   def initialize(month, year, type, wines)
     @id = @@ID

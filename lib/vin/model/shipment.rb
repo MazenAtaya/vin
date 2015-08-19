@@ -1,5 +1,5 @@
 class Shipment
-  @@ID = 0
+  @@ID = 1
   attr_reader :id
   attr_accessor :month, :year, :type, :status, :date, :wines, :notes
 
