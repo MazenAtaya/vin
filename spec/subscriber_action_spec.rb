@@ -211,5 +211,36 @@ describe SubsciberAction do
     expect(response.year).to eq(my_wine.year)
   end
 
+  #search
+  it 'Should return all the wines, notes and shipments when the search query is the empty string' do
+    shipment1 = Shipment.new :FEB, '2015'
+    shipment2 = Shipment.new :MAR, '2015'
+    my_wine = Wine.new
+    note = Note.new "This is a note."
+    shipment1.wines = [Wine.new, Wine.new, my_wine]
+    shipment2.add_note note
+    @sub.add_shipment shipment1
+    @sub.add_shipment shipment2
+    response = @sub_action.search [@sub], @sub.id, ""
+    expect(response["wines"].length).to eq(3)
+    expect(response["notes"].length).to eq(1)
+    expect(response["shipments"].length).to eq(2)
+  end
+  
+  it 'Should return all the wines, notes and shipments that match the seach query' do
+    shipment1 = Shipment.new :FEB, '2015'
+    shipment2 = Shipment.new :MAR, '2014', :RW, :PENDING, Time.new(2011)
+    my_wine = Wine.new "The Mission", "Table", "Red", "Cabernet Sauvignon", "Napa", "USA", "Sterling", "2015"
+    note = Note.new "This is a note."
+    shipment1.wines = [Wine.new, Wine.new, my_wine]
+    shipment1.add_note note
+    @sub.add_shipment shipment1
+    @sub.add_shipment shipment2
+    response = @sub_action.search [@sub], @sub.id, "2015"
+    expect(response["wines"].length).to eq(1)
+    expect(response["notes"].length).to eq(1)
+    expect(response["shipments"].length).to eq(1)
+  end
+
 
 end

@@ -272,4 +272,17 @@ class SubsciberAction
     find_object_by_id wines, wine_id
   end
 
+  def search(subs, sub_id, query)
+    sub = find_object_by_id subs, sub_id
+    if sub
+      wines = get_wines_shipped_to_sub subs, sub_id
+      notes = [wines.map {|wine| wine.notes }, sub.shipments.map { |ship| ship.notes }].flatten
+      {
+        'wines' => wines.select { |wine| wine.is_match?(query) },
+        'notes' => notes.select { |note| note.is_match?(query) },
+        'shipments' => sub.shipments.select { |ship| ship.is_match?(query)}
+      }
+    end
+  end
+
 end
