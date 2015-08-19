@@ -19,7 +19,7 @@ module Vin
 
   class WineClub
 
-  attr_accessor :subscribers, :admins, :receipts, :subsciber_action, :admin_action, :deliver_action, :monthly_selections
+  attr_accessor :subscribers, :admins, :receipts, :subscriber_action, :admin_action, :deliver_action, :monthly_selections
 
   def initialize()
     @subscribers = Array.new
