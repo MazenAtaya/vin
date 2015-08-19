@@ -11,11 +11,12 @@ require 'vin/model/admin'
 require 'vin/validator/validator'
 require 'vin/action/subscriber_action'
 require 'vin/action/delivery_partner_action'
+require 'vin/action/admin_action'
 require 'vin/model/receipt'
 require 'vin/helpers/helper_methods'
 
 module Vin
-  
+
   class WineClub
 
   attr_accessor :subscribers, :admins, :receipts, :subsciber_action, :admin_action, :deliver_action, :monthly_selections
