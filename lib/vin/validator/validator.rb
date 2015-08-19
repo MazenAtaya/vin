@@ -66,10 +66,10 @@ module Validator
 
     def validate_sub (subscriber)
       errors = Array.new
-      errors = validate_name(subscriber.name, errors)
-      errors = validate_email(subscriber.email, errors)
-      errors = validate_phone(subscriber.phone, errors)
-      errors = validate_address(subscriber.address, errors)
+      errors = validate_name(subscriber['name'], errors)
+      errors = validate_email(subscriber['email'], errors)
+      errors = validate_phone(subscriber['phone'], errors)
+      errors = validate_address(subscriber['address'], errors)
     end
 
     def validate_admin(admin)
