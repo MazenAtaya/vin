@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'pp'
-describe SubsciberAction do
+describe SubscriberAction do
   before (:each) do
     @addess = Address.new "244 W 31st", "Chicago", "IL", "60661"
     @sub = Subscriber.new "Mazen", "mataya@hawk.iit.edu", @addess, "7734922211"
@@ -9,7 +9,7 @@ describe SubsciberAction do
     @invalid_sub_3 = Subscriber.new "Mazen", "mataya@hawk.iit.edu", nil, "7734922211"
     @invalid_sub_4 = Subscriber.new "Mazen", "mataya@hawk.iit.edu", @addess, "Hello"
     @subs = Array.new
-    @sub_action = SubsciberAction.new
+    @sub_action = SubscriberAction.new
   end
 
   it 'shoud just work' do
@@ -226,7 +226,7 @@ describe SubsciberAction do
     expect(response["notes"].length).to eq(1)
     expect(response["shipments"].length).to eq(2)
   end
-  
+
   it 'Should return all the wines, notes and shipments that match the seach query' do
     shipment1 = Shipment.new :FEB, '2015'
     shipment2 = Shipment.new :MAR, '2014', :RW, :PENDING, Time.new(2011)

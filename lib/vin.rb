@@ -25,7 +25,7 @@ module Vin
     @subscribers = Array.new
     @admins = Array.new
     @receipts = Array.new
-    @subsciber_action = SubsciberAction.new
+    @subscriber_action = SubscriberAction.new
     @admin_action = AdminAction.new
     @deliver_action = DeliveryPartnerAction.new
     @monthly_selections = Array.new

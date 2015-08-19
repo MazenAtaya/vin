@@ -1,6 +1,6 @@
 require 'vin/helpers/helper_methods'
 
-class SubsciberAction
+class SubscriberAction
 
   include Helpers
 
