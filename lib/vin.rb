@@ -12,7 +12,6 @@ require 'vin/validator/validator'
 require 'vin/action/subscriber_action'
 require 'vin/action/delivery_partner_action'
 require 'vin/model/receipt'
-require 'vin/model/wine_club'
 require 'vin/helpers/helper_methods'
 
 module Vin

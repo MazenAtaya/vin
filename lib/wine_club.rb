@@ -1,8 +1,9 @@
+require 'vin'
 class WineClub
 
 attr_accessor :subscribers, :admins, :receipts, :subsciber_action, :admin_action, :deliver_action, :monthly_selections
 
-def initialize
+def initialize()
   @subscibers = Array.new
   @admins = Array.new
   @receipts = Array.new
