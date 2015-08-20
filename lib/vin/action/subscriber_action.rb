@@ -5,43 +5,40 @@ class SubscriberAction
   include Helpers
 
   def add_sub (subscribers, sub)
+    id = ""
     errors = Validator.validate_sub(sub)
     if (errors.length == 0)
       new_sub = Subscriber.new sub['name'], sub['email'], sub['address'], sub['phone'], sub['facebook'], sub['twitter']
       subscribers << new_sub
       id = new_sub.id
-    else
-      id = ""
     end
 
     { 'id' => id, 'errors' => errors }
 
   end
 
-  def edit_sub (subscribers, id, sub)
-    found_it = false
+  def edit_sub (subscribers, sub_id, sub)
+    subscriber = find_object_by_id subscribers, sub_id
     errors = []
-    subscribers.each do |subscriber|
-      if subscriber.id == id
-        found_it = true
+    if subscriber
         errors = Validator.validate_sub(sub)
         if errors.length == 0
-          subscriber.name = sub.name
-          subscriber.email = sub.email
-          subscriber.address = sub.address
-          subscriber.phone = sub.phone
-          subscriber.facebook = sub.facebook
-          subscriber.twitter = sub.twitter
-          break;
+          subscriber.name = sub['name']
+          subscriber.email = sub['email']
+          subscriber.address.street = sub['address']['street']
+          subscriber.address.city = sub['address']['city']
+          subscriber.address.state = sub['address']['state']
+          subscriber.address.zip = sub['address']['zip']
+          subscriber.phone = sub['phone']
+          subscriber.facebook = sub['facebook']
+          subscriber.twitter = sub['twitter']
         end
-      end
-    end
-
-    if !found_it
-      errors = [(Error.new 8, "Could not locate the subscriber with the given id")]
+    else
+        errors = [(Error.new 8, "Could not locate the subscriber with the given id")]
     end
 
     {'errors' => errors}
+
   end
 
   def get_sub(subscribers, id)

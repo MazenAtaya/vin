@@ -6,7 +6,7 @@ module Helpers
           return obj
         end
       end
+      nil
     end
-
 
 end

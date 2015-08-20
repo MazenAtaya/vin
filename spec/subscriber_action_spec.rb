@@ -2,12 +2,29 @@ require 'spec_helper'
 require 'pp'
 describe SubscriberAction do
   before (:each) do
-    @addess = Address.new "244 W 31st", "Chicago", "IL", "60661"
-    @sub = Subscriber.new "Mazen", "mataya@hawk.iit.edu", @addess, "7734922211"
+
+    @addess = {
+      "street"=> "244 W 31st",
+      "city"=>"Chicago",
+      "state"=> "IL",
+      "zip" => "60661"
+    }
+
+    @sub =  {
+      "name" => "Mazen",
+      "email" => "mataya@hawk.iit.edu",
+      "address"=> @addess,
+      "phone" => "7734922211"
+    }
+
     @invalid_sub_1 = Subscriber.new "Maz", "mataya@hawk.iit.edu", @addess, "7734922211"
     @invalid_sub_2 = Subscriber.new "Mazen", "mataya", @addess, "7734922211"
     @invalid_sub_3 = Subscriber.new "Mazen", "mataya@hawk.iit.edu", nil, "7734922211"
     @invalid_sub_4 = Subscriber.new "Mazen", "mataya@hawk.iit.edu", @addess, "Hello"
+
+    @addr = Address.new "244 W 31st", "Chicago", "IL", "60661"
+    @subscriber = Subscriber.new "Mazen", "mataya@hawk.iit.edu", @addr, "7734922211"
+    
     @subs = Array.new
     @sub_action = SubscriberAction.new
   end
@@ -32,92 +49,99 @@ describe SubscriberAction do
   end
 
   it 'should not add the subscriber if the name is not valid' do
-    response = @sub_action.add_sub(@subs, @invalid_sub_1)
+    @sub['name'] = 'Maz'
+    response = @sub_action.add_sub(@subs, @sub)
     expect(@subs.length).to eq(0)
     expect(response['errors'].length).to eq(1)
   end
 
   it 'should not add the subscriber if the email is not valid' do
-    response = @sub_action.add_sub(@subs, @invalid_sub_2)
+    @sub['email'] = 'mataya'
+    response = @sub_action.add_sub(@subs, @sub)
     expect(@subs.length).to eq(0)
     expect(response['errors'].length).to eq(1)
   end
 
   it 'should not add the subscriber if the address is not valid' do
-    response = @sub_action.add_sub(@subs, @invalid_sub_3)
+    @sub['address'] = nil
+    response = @sub_action.add_sub(@subs, @sub)
     expect(@subs.length).to eq(0)
     expect(response['errors'].length).to eq(1)
   end
 
   it 'should not add the subscriber if the phone is not valid' do
-    response = @sub_action.add_sub(@subs, @invalid_sub_4)
+    @sub['phone'] = 'Hello'
+    response = @sub_action.add_sub(@subs, @sub)
     expect(@subs.length).to eq(0)
     expect(response['errors'].length).to eq(1)
   end
 
   it 'should edit the subscriber with the given id if the information is valid' do
-    subs = [@sub]
-    edit_sub = Subscriber.new "new_Mazen", "motaya@hawk.iit.edu", @sub.address, "7734922212"
-    response = @sub_action.edit_sub(subs, @sub.id, edit_sub)
+    subs = [@subscriber]
+    edit_sub = @sub.clone
+    edit_sub['name'] = "Mason"
+    response = @sub_action.edit_sub(subs, @subscriber.id, edit_sub)
     expect(response['errors'].length).to eq(0)
-    expect(subs[0].name).to eq("new_Mazen")
-    expect(subs[0].email).to eq("motaya@hawk.iit.edu")
-    expect(subs[0].phone).to eq("7734922212")
-    expect(subs[0].address).to eq(@sub.address)
+    expect(subs[0].name).to eq("Mason")
+    expect(subs[0].email).to eq("mataya@hawk.iit.edu")
+    expect(subs[0].phone).to eq("7734922211")
+    expect(subs[0].address).to eq(@subscriber.address)
   end
 
   it 'should give an error when the id is not valid' do
-    subs = [@sub]
-    edit_sub = Subscriber.new "new_Mazen", "motaya@hawk.iit.edu", @sub.address, "7734922212"
-    response = @sub_action.edit_sub(subs, @sub.id + 1, edit_sub)
+    subs = [@subscriber]
+    edit_sub = @sub.clone
+    edit_sub['name'] = "Mason"
+    response = @sub_action.edit_sub(subs, 0, edit_sub)
     expect(response['errors'].length).to eq(1)
-    expect(subs[0].name).to eq(@sub.name)
-    expect(subs[0].email).to eq(@sub.email)
-    expect(subs[0].phone).to eq(@sub.phone)
-    expect(subs[0].address).to eq(@sub.address)
+    expect(subs[0].name).to eq(@subscriber.name)
+    expect(subs[0].email).to eq(@subscriber.email)
+    expect(subs[0].phone).to eq(@subscriber.phone)
+    expect(subs[0].address).to eq(@subscriber.address)
   end
 
   it 'should give an error when the information is not valid' do
-    subs = [@sub]
-    edit_sub = Subscriber.new "", "motaya@hawk.iit.edu", @sub.address, "7734922212"
-    response = @sub_action.edit_sub(subs, @sub.id, edit_sub)
+    subs = [@subscriber]
+    edit_sub = @sub.clone
+    edit_sub['name'] = ""
+    response = @sub_action.edit_sub(subs, @subscriber.id, edit_sub)
     expect(response['errors'].length).to eq(1)
-    expect(subs[0].name).to eq(@sub.name)
+    expect(subs[0].name).to eq(@subscriber.name)
   end
 
   it 'should return the subscriber with the given id if it exists' do
-    subs = [@sub]
-    response = @sub_action.get_sub(subs, @sub.id)
+    subs = [@subscriber]
+    response = @sub_action.get_sub(subs, @subscriber.id)
     expect(response['errors']).to be_nil
-    expect(response['email']).to eq(@sub.email)
+    expect(response['email']).to eq(@subscriber.email)
   end
 
   it 'should return an error when the subscriber does not exist' do
-    subs = [@sub]
-    response = @sub_action.get_sub(subs, @sub.id + 1)
+    subs = [@subscriber]
+    response = @sub_action.get_sub(subs, 0)
     expect(response['errors'].length).to eq(1)
   end
 
   # get_sub_shipments
   it 'Should return nil when subscriber id is invalid' do
-    subs = [@sub]
-    response = @sub_action.get_sub_shipments(subs, @sub.id + 1)
+    subs = [@subscriber]
+    response = @sub_action.get_sub_shipments(subs, 0)
     expect(response).to be_nil()
   end
 
   it 'Should return empty array when subscriber id is valid but it does not have any shipments' do
-    subs = [@sub]
-    response = @sub_action.get_sub_shipments(subs, @sub.id)
+    subs = [@subscriber]
+    response = @sub_action.get_sub_shipments(subs, @subscriber.id)
     expect(response['shipments']).to eq([])
   end
 
   it 'Should return an array of shipments when the subscribr id is valid and it has shipments' do
-    subs = [@sub]
+    subs = [@subscriber]
     shipment = Shipment.new :FEB, '2015'
     shipment.wines = [Wine.new, Wine.new]
     shipment.notes = ["Hello", "World"]
-    @sub.add_shipment shipment
-    response = @sub_action.get_sub_shipments(subs, @sub.id)
+    @subscriber.add_shipment shipment
+    response = @sub_action.get_sub_shipments(subs, @subscriber.id)
     expect(response['shipments'].length).to eq(1)
     expect(response['shipments'][0]['id']).to eq(shipment.id)
     expect(response['shipments'][0]['selection_month']).to eq('FEB/2015')
@@ -126,27 +150,27 @@ describe SubscriberAction do
 
   # get_sub_shipment
   it 'Should return nil when providing invalid shipment id but valid subscribr id ' do
-    subs = [@sub]
+    subs = [@subscriber]
     shipment = Shipment.new :FEB, '2015'
-    @sub.add_shipment shipment
-    response = @sub_action.get_sub_shipment(subs, @sub.id, shipment.id + 1)
+    @subscriber.add_shipment shipment
+    response = @sub_action.get_sub_shipment(subs, @subscriber.id, shipment.id + 1)
     expect(response).to be_nil()
   end
 
   it 'Should return nil when providing valid shipment id but invalid subscribr id ' do
-    subs = [@sub]
+    subs = [@subscriber]
     shipment = Shipment.new :FEB, '2015'
-    @sub.add_shipment shipment
-    response = @sub_action.get_sub_shipment(subs, @sub.id + 1, shipment.id)
+    @subscriber.add_shipment shipment
+    response = @sub_action.get_sub_shipment(subs, @subscriber.id + 1, shipment.id)
     expect(response).to be_nil()
   end
 
   it 'Should return the shipment when both the shipment id and subscribr id are valid' do
-    subs = [@sub]
+    subs = [@subscriber]
     shipment = Shipment.new :FEB, '2015'
-    @sub.add_shipment shipment
+    @subscriber.add_shipment shipment
     shipment.wines = [Wine.new, Wine.new]
-    response = @sub_action.get_sub_shipment(subs, @sub.id, shipment.id)
+    response = @sub_action.get_sub_shipment(subs, @subscriber.id, shipment.id)
     expect(response['id']).to eq(shipment.id)
     expect(response['selection_month']).to eq('FEB/2015')
     expect(response['status']).to eq(:PENDING.to_s)
@@ -158,12 +182,12 @@ describe SubscriberAction do
   end
 
   it 'Should return the note when it exists' do
-    subs = [@sub]
+    subs = [@subscriber]
     shipment = Shipment.new :FEB, '2015'
     note = Note.new "This is a note."
     shipment.add_note note
-    @sub.add_shipment shipment
-    response = @sub_action.get_note(subs, @sub.id, shipment.id, note.id )
+    @subscriber.add_shipment shipment
+    response = @sub_action.get_note(subs, @subscriber.id, shipment.id, note.id )
     expect(response['id']).to eq(note.id)
     expect(response['content']).to eq("This is a note.")
     expect(response['date']).to eq(Time.now.strftime("%d-%m-%Y"))
@@ -171,41 +195,41 @@ describe SubscriberAction do
 
   # delete note
   it 'Should delete a note when it exists' do
-    subs = [@sub]
+    subs = [@subscriber]
     shipment = Shipment.new :FEB, '2015'
     note = Note.new "This is a note."
     shipment.add_note note
-    @sub.add_shipment shipment
-    response = @sub_action.delete_note(subs, @sub.id, shipment.id, note.id )
-    expect(@sub.shipments[0].notes.length).to eq(0)
+    @subscriber.add_shipment shipment
+    response = @sub_action.delete_note(subs, @subscriber.id, shipment.id, note.id )
+    expect(@subscriber.shipments[0].notes.length).to eq(0)
     expect(response).to eq({})
   end
 
   # get wines
   it 'Should return all the wines that are shipped to a particular subscriber' do
-    subs = [@sub]
+    subs = [@subscriber]
     shipment1 = Shipment.new :FEB, '2015'
     shipment2 = Shipment.new :MAR, '2015'
     shipment1.wines = [Wine.new, Wine.new, Wine.new]
     shipment2.wines = [Wine.new, Wine.new, Wine.new]
-    @sub.add_shipment shipment1
-    @sub.add_shipment shipment2
-    response = @sub_action.get_wines_shipped_to_sub(subs, @sub.id)
+    @subscriber.add_shipment shipment1
+    @subscriber.add_shipment shipment2
+    response = @sub_action.get_wines_shipped_to_sub(subs, @subscriber.id)
     expect(response.length).to eq(6)
     expect(response[0].label_name).to eq(Wine.new.label_name)
   end
 
   # get wine shipped to sub
   it 'Should return the wine when it exists' do
-    subs = [@sub]
+    subs = [@subscriber]
     shipment1 = Shipment.new :FEB, '2015'
     shipment2 = Shipment.new :MAR, '2015'
     my_wine = Wine.new
     shipment1.wines = [Wine.new, Wine.new, Wine.new]
     shipment2.wines = [Wine.new, Wine.new, my_wine]
-    @sub.add_shipment shipment1
-    @sub.add_shipment shipment2
-    response = @sub_action.get_wine_shipped_to_sub(subs, @sub.id, my_wine.id)
+    @subscriber.add_shipment shipment1
+    @subscriber.add_shipment shipment2
+    response = @sub_action.get_wine_shipped_to_sub(subs, @subscriber.id, my_wine.id)
     expect(response.id).to eq(my_wine.id)
     expect(response.label_name).to eq(my_wine.label_name)
     expect(response.year).to eq(my_wine.year)
@@ -219,9 +243,9 @@ describe SubscriberAction do
     note = Note.new "This is a note."
     shipment1.wines = [Wine.new, Wine.new, my_wine]
     shipment2.add_note note
-    @sub.add_shipment shipment1
-    @sub.add_shipment shipment2
-    response = @sub_action.search [@sub], @sub.id, ""
+    @subscriber.add_shipment shipment1
+    @subscriber.add_shipment shipment2
+    response = @sub_action.search [@subscriber], @subscriber.id, ""
     expect(response["wines"].length).to eq(3)
     expect(response["notes"].length).to eq(1)
     expect(response["shipments"].length).to eq(2)
@@ -234,9 +258,9 @@ describe SubscriberAction do
     note = Note.new "This is a note."
     shipment1.wines = [Wine.new, Wine.new, my_wine]
     shipment1.add_note note
-    @sub.add_shipment shipment1
-    @sub.add_shipment shipment2
-    response = @sub_action.search [@sub], @sub.id, "2015"
+    @subscriber.add_shipment shipment1
+    @subscriber.add_shipment shipment2
+    response = @sub_action.search [@subscriber], @subscriber.id, "2015"
     expect(response["wines"].length).to eq(1)
     expect(response["notes"].length).to eq(1)
     expect(response["shipments"].length).to eq(1)

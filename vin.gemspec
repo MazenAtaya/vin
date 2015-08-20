@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.version       = Vin::VERSION
   spec.authors       = ["mataya"]
   spec.email         = ["mataya@cleversafe.com"]
-
+  spec.description   = ["This is a description."]
   spec.summary       = %q{This is a wine clube.}
   spec.homepage      = "https://github.com/mazen555/vin"
   spec.license       = "MIT"

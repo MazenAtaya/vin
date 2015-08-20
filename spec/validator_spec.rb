@@ -6,6 +6,12 @@ describe Validator do
     @email = "mataya@haw.iit.edu"
     @phone = '7734922211'
     @errors = Array.new
+    @address = {
+      "street" => "244 W 31ST ST",
+      "city" => "Chicago",
+      "state" => "IL",
+      "zip" => "60616"
+    }
   end
   it 'shoud accepts name when it is valid' do
     errors = Validator.validate_name(@name, @errors)
@@ -57,30 +63,29 @@ describe Validator do
   end
 
   it 'should accepts address when it is valid' do
-    address = Address.new "244 W 31ST ST", "Chicago", "IL", "60616"
-    errors = Validator.validate_address(address, @errors)
+    errors = Validator.validate_address(@address, @errors)
     expect(errors).to be_empty()
   end
 
   it 'should rejects address when it does not have street' do
-    address = Address.new "", "Chicago", "IL", "60616"
-    errors = Validator.validate_address(address, @errors)
+    @address['street'] = ""
+    errors = Validator.validate_address(@address, @errors)
     expect(errors.length).to eq(1)
   end
   it 'should rejects address when it does not have city' do
-    address = Address.new "244 W 31st", "", "IL", "60616"
-    errors = Validator.validate_address(address, @errors)
+    @address['city'] = ""
+    errors = Validator.validate_address(@address, @errors)
     expect(errors.length).to eq(1)
   end
   it 'should rejects address when it does not have state' do
-    address = Address.new "244 W 31st", "Chicago", "", "60616"
-    errors = Validator.validate_address(address, @errors)
+    @address['state'] = ""
+    errors = Validator.validate_address(@address, @errors)
     expect(errors.length).to eq(1)
   end
 
   it 'should rejects address when it does not have zip' do
-    address = Address.new "244 W 31st", "Chicago", "IL", ""
-    errors = Validator.validate_address(address, @errors)
+    @address['zip'] = ""
+    errors = Validator.validate_address(@address, @errors)
     expect(errors.length).to eq(1)
   end
 

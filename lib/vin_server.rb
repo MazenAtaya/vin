@@ -24,3 +24,10 @@ get '/vin/sub/:id' do
   response = wc.subscriber_action.get_sub(wc.subscribers, id.to_i);
   response.to_json
 end
+
+put '/vin/sub/:id' do
+  id = params[:id]
+  sub = JSON.parse request.body.read
+  response = wc.subscriber_action.edit_sub(wc.subscribers, id.to_i, sub);
+  response.to_json
+end
