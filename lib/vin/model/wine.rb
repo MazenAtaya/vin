@@ -1,7 +1,7 @@
 class Wine
   @@ID = 1
   @@ratings_count = 0
-  @@rating
+  @@rating = 0
   attr_reader :id
   attr_accessor :label_name, :type, :variety, :grape, :region, :country, :maker, :year
   attr_accessor :notes

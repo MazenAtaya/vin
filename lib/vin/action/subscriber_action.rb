@@ -251,7 +251,14 @@ class SubscriberAction
     rating ? {'rating'=> rating} : nil
   end
 
-  def add_wine_rating(subs, sub_id, wine_id, rating)
+  def add_wine_rating(subs, sub_id, wine_id, rating_hash)
+    rating = rating_hash['rating']
+    return if rating == nil
+    begin
+      rating = Integer(rating)
+    rescue
+      return
+    end
     wine = nil
     sub = find_object_by_id subs, sub_id
     if sub
@@ -287,11 +294,14 @@ class SubscriberAction
     sub = find_object_by_id subs, sub_id
     if sub
       wines = get_wines_shipped_to_sub subs, sub_id
+      wines = wines.select { |wine| wine.is_match?(query) }
       notes = [wines.map {|wine| wine.notes }, sub.shipments.map { |ship| ship.notes }].flatten
+      notes = notes.select { |note| note.is_match?(query) }
+      shipments = sub.shipments.select {|ship| ship.is_match?(query) }
       {
-        'wines' => wines.select { |wine| wine.is_match?(query) },
-        'notes' => notes.select { |note| note.is_match?(query) },
-        'shipments' => sub.shipments.select { |ship| ship.is_match?(query)}
+        'wines' => wines.map { |e| {'id' => e.id, 'label_name' =>e.label_name } },
+        'notes' => notes.map { |e| {'id' => e.id, 'content' => e.content } },
+        'shipments' => shipments.map { |e|  {'id' => e.id, 'selection_month' => e.month.to_s + '/' + e.year } }
       }
     end
   end

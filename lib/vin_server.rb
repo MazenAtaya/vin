@@ -192,7 +192,7 @@ post '/vin/sub/:id/wines/:wid/rating' do
   wid = params[:wid].to_i
   nid = params[:nid].to_i
   rating = parse_json request.body
-  response = wc.subscriber_action.add_wine_rating wc.subscribers, id, wid, rating['rating']
+  response = wc.subscriber_action.add_wine_rating wc.subscribers, id, wid, rating
   return response.to_json unless response == nil
   not_found '{ "error": "uid or wid is not found or invalid"}'
 end
