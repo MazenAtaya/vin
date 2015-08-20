@@ -129,23 +129,19 @@ class SubscriberAction
         note = find_object_by_id ship.notes, note_id
       end
     end
-    note ? note.to_h : {'errors' => [(Error.new 9, "One of the resources does not exists")]}
+    note ? note.to_h : nil
   end
 
-  def update_note(subs, sub_id, ship_id, note_id, content)
+  def update_note(subs, sub_id, sid, nid, note_hash)
     note = nil
     sub = find_object_by_id subs, sub_id
     if sub
-      ship = find_object_by_id sub.shipments, ship_id
-      if ship
-        note = find_object_by_id ship.notes, note_id
-      end
+        note = sub.get_shipment_note sid, nid
+        if note
+          note.content = note_hash['content']
+        end
     end
-    if note
-      note.content = content
-      return {}
-    end
-    {'errors' => [(Error.new 9, "One of the resources does not exists")]}
+    note
   end
 
   def delete_note(subs, sub_id, ship_id, note_id)
@@ -157,7 +153,7 @@ class SubscriberAction
         found_it = ship.delete_note note_id
       end
     end
-    found_it ? {} : {'errors' => [(Error.new 9, "One of the resources does not exists")]}
+    found_it ? {} : nil
   end
 
   def get_wines_shipped_to_sub(subs, sub_id)
@@ -174,7 +170,7 @@ class SubscriberAction
         end
       end
     end
-    wines
+    sub ? wines : nil
   end
 
   def get_wine_shipped_to_sub(subs, sub_id, wine_id)
@@ -207,7 +203,7 @@ class SubscriberAction
       note = Note.new content
       notes << note
     end
-    notes ? true : false
+    notes ? {} : nil
   end
 
   def get_wine_note(subs, sub_id, wine_id, note_id)

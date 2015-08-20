@@ -20,5 +20,9 @@ class MonthlySelection
     end
   end
 
+  def get_wine(wid)
+    @wines.find { |e| e.id == wid } 
+  end
+
 
 end

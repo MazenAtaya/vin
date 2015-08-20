@@ -62,5 +62,7 @@ class Shipment
     @notes.any? { |note| note.is_match?(query) }
   end
 
-
+  def get_note(nid)
+    @notes.find {|e| e.id == nid }
+  end
 end

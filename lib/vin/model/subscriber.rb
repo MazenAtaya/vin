@@ -45,4 +45,16 @@ class Subscriber
     @twitter.downcase.include?(query)
   end
 
+  def get_shipment(sid)
+    @shipment.find {|e| e.id == sid}
+  end
+
+  def get_shipment_note(sid, nid)
+    ship = self.get_shipment(sid)
+    if ship
+      note = ship.get_note(nid)
+      return note
+    end
+  end
+
 end

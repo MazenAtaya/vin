@@ -24,7 +24,7 @@ error do
   '{"error": "An error has occurred. Please try again later."}'
 end
 not_found do
-  halt 404,   '{"error": "Bad request."}'
+  status 404
 end
 
 # subscriber related api calls
@@ -39,7 +39,7 @@ get '/vin/sub/:id' do
   id = params[:id]
   response = wc.subscriber_action.get_sub(wc.subscribers, id.to_i);
   return response.to_json unless response == nil
-  halt 404, '{ "error": "The uid is not found or invalid"}'
+  not_found '{ "error": "The uid is not found or invalid"}'
 end
 
 put '/vin/sub/:id' do
@@ -47,7 +47,7 @@ put '/vin/sub/:id' do
   sub = parse_json request.body
   response = wc.subscriber_action.edit_sub(wc.subscribers, id, sub);
   return response.to_json unless response == nil
-  halt 404, '{ "error": "The uid is not found or invalid"}'
+  not_found '{ "error": "The uid is not found or invalid"}'
 end
 
 # shipment related api calls
@@ -55,7 +55,7 @@ get '/vin/sub/:id/shipments' do
   id = params[:id]
   response = wc.subscriber_action.get_sub_shipments(wc.subscribers, id.to_i);
   return response.to_json unless response == nil
-  halt 404, '{ "error": "The uid is not found or invalid"}'
+  not_found '{ "error": "The uid is not found or invalid"}'
 end
 
 get '/vin/sub/:id/shipments/:sid' do
@@ -63,7 +63,7 @@ get '/vin/sub/:id/shipments/:sid' do
   sid = params[:sid].to_i
   response = wc.subscriber_action.get_sub_shipment(wc.subscribers, id, sid)
   return response.to_json unless response == nil
-  halt 404,'{ "error": "Either the uid or the sid is not found or invalid"}'
+  not_found'{ "error": "Either the uid or the sid is not found or invalid"}'
 end
 
 post '/vin/sub/:id/shipments/:sid/notes' do
@@ -76,7 +76,7 @@ post '/vin/sub/:id/shipments/:sid/notes' do
 
   return response.to_json unless response == nil
 
-  halt 404, '{ "error": "Either the uid or the sid is not found or invalid"}'
+  not_found '{ "error": "Either the uid or the sid is not found or invalid"}'
 end
 
 get '/vin/sub/:id/shipments/:sid/notes' do
@@ -84,5 +84,23 @@ get '/vin/sub/:id/shipments/:sid/notes' do
   sid = params[:sid].to_i
   response = wc.subscriber_action.get_ship_notes(wc.subscribers, id, sid)
   return response.to_json unless response == nil
-  halt 404, '{ "error": "Either the uid or the sid is not found or invalid"}'
+  not_found '{ "error": "Either uid or sid is not found or invalid"}'
+end
+
+get '/vin/sub/:id/shipments/:sid/notes/:nid' do
+  id = params[:id].to_i
+  sid = params[:sid].to_i
+  nid = params[:nid].to_i
+  response = wc.subscriber_action.get_note(wc.subscribers, id, sid, nid)
+  return response.to_json unless response == nil
+   not_found '{ "error": "Either uid, sid or nid is not found or invalid"}'
+end
+
+put '/vin/sub/:id/shipments/:sid/notes/:nid' do
+  id = params[:id]
+  sid = params[:sid]
+  nid = params[:nid]
+  note = parse_json request.body
+  response = wc.subscriber_action.update_note(wc.subscribers, id, sid, nid, note)
+
 end

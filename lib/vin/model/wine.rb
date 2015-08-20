@@ -77,4 +77,9 @@ def is_match?(query)
   @year.include?(query)
 end
 
+def get_note(nid)
+  @notes.find { |e| e.id == nid }
+end
+
+
 end
