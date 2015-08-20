@@ -53,18 +53,14 @@ class SubscriberAction
 
   def get_sub_shipments(subscribers, sub_id)
     shipments = []
-    found_it = false
-    subscribers.each do |sub|
-      if (sub.id == sub_id)
-        found_it = true
+    sub = find_object_by_id subscibers, sub_id
+      if sub
         sub.shipments.each do |ship|
           shipments << {'id' => ship.id, 'selection_month'=> ship.month.to_s + '/' + ship.year, 'status' => ship.status.to_s}
         end
-        break
+      else
+        return nil
       end
-    end
-
-    return nil unless found_it
 
     {'shipments' => shipments }
 
@@ -109,17 +105,18 @@ class SubscriberAction
     ship ? {'notes' => ship.notes.map { |e| e.to_h }} : {'errors' => [(Error.new 9, "One of the resources does not exists")]}
   end
 
-  def add_note_to_ship(subscribers, sub_id, ship_id, content)
+  def add_note_to_ship(subscribers, sub_id, ship_id, note)
     ship = nil
     sub = find_object_by_id subscribers, sub_id
     if sub
       ship = find_object_by_id sub.shipments, ship_id
     end
     if ship
-      note = Note.new content
+      note = Note.new note['content']
       ship.add_note note
     end
-    note ? {'id' => note.id} : {'errors' => [(Error.new 9, "One of the resources does not exists")]}
+  #  note ? {'id' => note.id} : {'errors' => [(Error.new 9, "One of the resources does not exists")]}
+  note ? {'id' => note.id} : nil
   end
 
   def get_note(subscribers, sub_id, ship_id, note_id)
