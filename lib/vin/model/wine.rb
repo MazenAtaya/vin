@@ -50,13 +50,15 @@ class Wine
       'region' => @region,
       'country' => @country,
       'maker' => @maker,
-      'year' => @year
+      'year' => @year,
+      'ratings_count' => @@ratings_count,
+      'rating' => @@rating
     }
   end
 def add_rating rating
   if rating <= 10 && rating >= 0
-    @rating += rating.to_i
-    @ratings_count += 1
+    @@rating += rating.to_i
+    @@ratings_count += 1
     return true
   end
 end

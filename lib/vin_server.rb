@@ -168,3 +168,31 @@ put '/vin/sub/:id/wines/:wid/notes/:nid' do
   return response.to_json unless response == nil
   not_found '{ "error": "uid, wid or nid is not found or invalid"}'
 end
+
+delete '/vin/sub/:id/wines/:wid/notes/:nid' do
+  id = params[:id].to_i
+  wid = params[:wid].to_i
+  nid = params[:nid].to_i
+  response = wc.subscriber_action.delete_wine_note wc.subscribers, id, wid, nid
+  return response.to_json unless response == nil
+  not_found '{ "error": "uid, wid or nid is not found or invalid"}'
+end
+
+get '/vin/sub/:id/wines/:wid/rating' do
+  id = params[:id].to_i
+  wid = params[:wid].to_i
+  nid = params[:nid].to_i
+  response = wc.subscriber_action.get_wine_rating wc.subscribers, id, wid
+  return response.to_json unless response == nil
+  not_found '{ "error": "uid or wid is not found or invalid"}'
+end
+
+post '/vin/sub/:id/wines/:wid/rating' do
+  id = params[:id].to_i
+  wid = params[:wid].to_i
+  nid = params[:nid].to_i
+  rating = parse_json request.body
+  response = wc.subscriber_action.add_wine_rating wc.subscribers, id, wid, rating['rating']
+  return response.to_json unless response == nil
+  not_found '{ "error": "uid or wid is not found or invalid"}'
+end
