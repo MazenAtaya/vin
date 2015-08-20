@@ -97,10 +97,11 @@ get '/vin/sub/:id/shipments/:sid/notes/:nid' do
 end
 
 put '/vin/sub/:id/shipments/:sid/notes/:nid' do
-  id = params[:id]
-  sid = params[:sid]
-  nid = params[:nid]
+  id = params[:id].to_i
+  sid = params[:sid].to_i
+  nid = params[:nid].to_i
   note = parse_json request.body
   response = wc.subscriber_action.update_note(wc.subscribers, id, sid, nid, note)
-
+  return response.to_json unless response == nil
+  not_found '{ "error": "Either uid, sid or nid is not found or invalid"}'
 end

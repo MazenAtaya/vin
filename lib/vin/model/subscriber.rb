@@ -46,7 +46,7 @@ class Subscriber
   end
 
   def get_shipment(sid)
-    @shipment.find {|e| e.id == sid}
+    @shipments.find {|e| e.id == sid}
   end
 
   def get_shipment_note(sid, nid)
