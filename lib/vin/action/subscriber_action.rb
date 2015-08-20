@@ -141,7 +141,7 @@ class SubscriberAction
           note.content = note_hash['content']
         end
     end
-    note
+    note ? {} : nil
   end
 
   def delete_note(subs, sub_id, ship_id, note_id)
@@ -156,92 +156,111 @@ class SubscriberAction
     found_it ? {} : nil
   end
 
+
   def get_wines_shipped_to_sub(subs, sub_id)
-    wines = []
-    ids = Set.new
+    wines = nil
     sub = find_object_by_id subs, sub_id
     if sub
-      sub.shipments.each do |ship|
-        ship.wines.each do |wine|
-          if !ids.include? wine.id
-            wines << wine
-            ids.add wine.id
-          end
-        end
-      end
+      wines = sub.get_wines
     end
-    sub ? wines : nil
+    wines ? {'wines' => wines.map { |e| {'id'=> e.id, 'label_name'=> e.label_name}  }} : nil
   end
 
   def get_wine_shipped_to_sub(subs, sub_id, wine_id)
-    my_wine = nil
-    found_it = false
+    wine = nil
     sub = find_object_by_id subs, sub_id
     if sub
-      sub.shipments.each do |ship|
-        ship.wines.each do |wine|
-          if wine.id == wine_id
-            my_wine = wine
-            found_it = true
-            break
-          end
-        end
-        break unless !found_it
-      end
+      wine = sub.get_wine(wine_id)
     end
-    my_wine
+    wine ? wine.to_h : nil
   end
 
   def get_wine_notes(subs, sub_id, wine_id)
-    wine = get_wine_shipped_to_sub subs, sub_id, wine_id
-    wine.notes unless wine
+    notes = nil
+    sub = find_object_by_id subs, sub_id
+    if sub
+      wine = sub.get_wine(wine_id)
+      if wine
+        notes = wine.notes
+      end
+    end
+    notes ? {'notes' => notes.map { |e| e.to_h } } : nil
   end
 
-  def add_note_to_wine(subs, sub_id, wine_id, content)
-    notes = get_wine_notes subs, sub_id, wine_id
-    if notes
-      note = Note.new content
-      notes << note
+  def add_note_to_wine(subs, sub_id, wine_id, note_hash)
+    note = nil
+    sub = find_object_by_id subs, sub_id
+    if sub
+      wine = sub.get_wine wine_id
+      if wine
+        note = Note.new note_hash['content']
+        wine.add_note(note)
+      end
     end
-    notes ? {} : nil
+    note ? {'id' => note.id } : nil
   end
 
   def get_wine_note(subs, sub_id, wine_id, note_id)
     note = nil
-    notes = get_wine_notes subs, sub_id, wine_id
-    if notes
-      note = find_object_by_id notes, note_id
+    sub = find_object_by_id subs, sub_id
+    if sub
+      wine = sub.get_wine wine_id
+      if wine
+        note = wine.get_note
+      end
     end
-    note
+    note ? note.to_h : nil
   end
 
-  def edit_wine_note (subs, sub_id, wine_id, note_id, content)
-    note = get_wine_note subs, sub_id, wine_id, note_id
-    if note
-      note.content = content
+  def edit_wine_note (subs, sub_id, wine_id, note_id, note_hash)
+
+    note = nil
+    sub = find_object_by_id subs, sub_id
+    if sub
+      wine = sub.get_wine wine_id
+      if wine
+        note = wine.get_note
+        if note
+          note.content = note_hash['content']
+        end
+      end
     end
-    note ? true : false
+    note ? {} : nil
   end
 
   def delete_wine_note(subs, sub_id, wine_id, note_id)
-    wine = get_wine_shipped_to_sub subs, sub_id, wine_id
-    if wine
-      wine.delete_note note_id
+    sub = find_object_by_id subs, sub_id
+    if sub
+      wine = sub.get_wine wine_id
+      if wine
+        success = wine.delete_note note_id
+        success ? {} : nil
+      end
     end
   end
 
   def get_wine_rating(subs, sub_id, wine_id)
-    wine = get_wine_shipped_to_sub subs, sub_id, wine_id
-    if wine
-      wine.rating
+    rating = nil
+    sub = find_object_by_id subs, sub_id
+    if sub
+      wine = sub.get_wine wine_id
+      if wine
+        rating = wine.rating
+      end
     end
+    rating ? {'rating'=> rating} : nil
   end
 
   def add_wine_rating(subs, sub_id, wine_id, rating)
-    wine = get_wine_shipped_to_sub subs, sub_id, wine_id
-    if wine
-      wine.add_rating rating
+    wine = nil
+    sub = find_object_by_id subs, sub_id
+    if sub
+      wine = sub.get_wine wine_id
+      if wine
+        wine.add_rating rating
+      end
     end
+    wine ? {} : nil
   end
 
   def get_monthly_selection(subs, sub_id)

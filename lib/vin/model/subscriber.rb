@@ -57,4 +57,23 @@ class Subscriber
     end
   end
 
+  def get_wines
+    wines = []
+    ids = Set.new
+    @shipments.each do |ship|
+      ship.wines.each do |wine|
+        if !ids.include? wine.id
+          wines << wine
+          ids.add wine.id
+        end
+      end
+    end
+    wines
+  end
+
+  def get_wine(wid)
+    wines = self.get_wines
+    wines.find { |wine| wine.id == wid }
+  end
+
 end

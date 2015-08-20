@@ -24,7 +24,7 @@ describe SubscriberAction do
 
     @addr = Address.new "244 W 31st", "Chicago", "IL", "60661"
     @subscriber = Subscriber.new "Mazen", "mataya@hawk.iit.edu", @addr, "7734922211"
-    
+
     @subs = Array.new
     @sub_action = SubscriberAction.new
   end
@@ -215,8 +215,7 @@ describe SubscriberAction do
     @subscriber.add_shipment shipment1
     @subscriber.add_shipment shipment2
     response = @sub_action.get_wines_shipped_to_sub(subs, @subscriber.id)
-    expect(response.length).to eq(6)
-    expect(response[0].label_name).to eq(Wine.new.label_name)
+    expect(response['wines'].length).to eq(6)
   end
 
   # get wine shipped to sub
@@ -230,9 +229,8 @@ describe SubscriberAction do
     @subscriber.add_shipment shipment1
     @subscriber.add_shipment shipment2
     response = @sub_action.get_wine_shipped_to_sub(subs, @subscriber.id, my_wine.id)
-    expect(response.id).to eq(my_wine.id)
-    expect(response.label_name).to eq(my_wine.label_name)
-    expect(response.year).to eq(my_wine.year)
+    expect(response['id']).to eq(my_wine.id)
+    expect(response['label_name']).to eq(my_wine.label_name)
   end
 
   #search

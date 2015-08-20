@@ -105,3 +105,20 @@ put '/vin/sub/:id/shipments/:sid/notes/:nid' do
   return response.to_json unless response == nil
   not_found '{ "error": "Either uid, sid or nid is not found or invalid"}'
 end
+
+delete '/vin/sub/:id/shipments/:sid/notes/:nid' do
+  id = params[:id].to_i
+  sid = params[:sid].to_i
+  nid = params[:nid].to_i
+  response = wc.subscriber_action.delete_note(wc.subscribers, id, sid, nid)
+  return response.to_json unless response == nil
+  not_found '{ "error": "Either uid, sid or nid is not found or invalid"}'
+end
+
+#wine related api calls
+get '/vin/sub/:id/wines' do
+  id = params[:id].to_i
+  response = wc.subscriber_action.get_wines_shipped_to_sub(wc.subscribers, id)
+  return response.to_json unless response == nil
+  not_found '{ "error": "uid is not found or invalid"}'
+end
