@@ -105,18 +105,19 @@ class SubscriberAction
     ship ? {'notes' => ship.notes.map { |e| e.to_h }} : nil
   end
 
-  def add_note_to_ship(subscribers, sub_id, ship_id, note)
+  def add_note_to_ship(subscribers, sub_id, ship_id, note_hash)
     ship = nil
+    note = nil
     sub = find_object_by_id subscribers, sub_id
     if sub
       ship = find_object_by_id sub.shipments, ship_id
     end
     if ship
-      note = Note.new note['content']
+      note = Note.new note_hash['content']
       ship.add_note note
     end
-  #  note ? {'id' => note.id} : {'errors' => [(Error.new 9, "One of the resources does not exists")]}
-  note ? {'id' => note.id} : nil
+
+    note ? {'id' => note.id} : nil
   end
 
   def get_note(subscribers, sub_id, ship_id, note_id)

@@ -20,6 +20,12 @@ end
 before do
   content_type "application/json"
 end
+error do
+  '{"error": "An error has occurred. Please try again later."}'
+end
+not_found do
+  halt 404,   '{"error": "Bad request."}'
+end
 
 # subscriber related api calls
 post '/vin/sub' do
@@ -44,7 +50,7 @@ put '/vin/sub/:id' do
   halt 404, '{ "error": "The uid is not found or invalid"}'
 end
 
-
+# shipment related api calls
 get '/vin/sub/:id/shipments' do
   id = params[:id]
   response = wc.subscriber_action.get_sub_shipments(wc.subscribers, id.to_i);
@@ -70,5 +76,13 @@ post '/vin/sub/:id/shipments/:sid/notes' do
 
   return response.to_json unless response == nil
 
+  halt 404, '{ "error": "Either the uid or the sid is not found or invalid"}'
+end
+
+get '/vin/sub/:id/shipments/:sid/notes' do
+  id = params[:id].to_i
+  sid = params[:sid].to_i
+  response = wc.subscriber_action.get_ship_notes(wc.subscribers, id, sid)
+  return response.to_json unless response == nil
   halt 404, '{ "error": "Either the uid or the sid is not found or invalid"}'
 end
