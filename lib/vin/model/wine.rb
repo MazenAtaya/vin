@@ -64,7 +64,8 @@ def add_rating rating
 end
 
 def rating
-  @@ratings_count == 0 ? 0.0 : (@@rating.to_f / @@ratings_count.to_f).round 1
+
+  @@ratings_count == 0 ? 0.0 : ((@@rating.to_f / @@ratings_count.to_f).round 1)
 end
 
 def is_match?(query)
