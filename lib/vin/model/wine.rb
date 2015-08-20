@@ -64,7 +64,7 @@ def add_rating rating
 end
 
 def rating
-  @@ratings_count == 0 ? 0 : @rating / @@ratings_count
+  @@ratings_count == 0 ? 0 : @@rating / @@ratings_count
 end
 
 def is_match?(query)
