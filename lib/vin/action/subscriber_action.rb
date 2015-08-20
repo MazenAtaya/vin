@@ -8,7 +8,8 @@ class SubscriberAction
     id = ""
     errors = Validator.validate_sub(sub)
     if (errors.length == 0)
-      new_sub = Subscriber.new sub['name'], sub['email'], sub['address'], sub['phone'], sub['facebook'], sub['twitter']
+      address = Address.new sub['address']['street'], sub['address']['city'], sub['address']['state'], sub['address']['zip']
+      new_sub = Subscriber.new sub['name'], sub['email'], address, sub['phone'], sub['facebook'], sub['twitter']
       subscribers << new_sub
       id = new_sub.id
     end
