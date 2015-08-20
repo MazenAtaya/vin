@@ -156,5 +156,15 @@ get '/vin/sub/:id/wines/:wid/notes/:nid' do
   nid = params[:nid].to_i
   response = wc.subscriber_action.get_wine_note wc.subscribers, id, wid, nid
   return response.to_json unless response == nil
-  not_found '{ "error": "uid or wid is not found or invalid"}'
+  not_found '{ "error": "uid, wid or nid is not found or invalid"}'
+end
+
+put '/vin/sub/:id/wines/:wid/notes/:nid' do
+  id = params[:id].to_i
+  wid = params[:wid].to_i
+  nid = params[:nid].to_i
+  note = parse_json request.body
+  response = wc.subscriber_action.edit_wine_note wc.subscribers, id, wid, nid, note
+  return response.to_json unless response == nil
+  not_found '{ "error": "uid, wid or nid is not found or invalid"}'
 end

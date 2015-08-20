@@ -219,7 +219,7 @@ class SubscriberAction
     if sub
       wine = sub.get_wine wine_id
       if wine
-        note = wine.get_note
+        note = wine.get_note note_id
         if note
           note.content = note_hash['content']
         end
