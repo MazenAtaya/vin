@@ -206,7 +206,7 @@ class SubscriberAction
     if sub
       wine = sub.get_wine wine_id
       if wine
-        note = wine.get_note
+        note = wine.get_note note_id
       end
     end
     note ? note.to_h : nil

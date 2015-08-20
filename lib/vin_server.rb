@@ -31,7 +31,9 @@ end
 post '/vin/sub' do
   sub = parse_json request.body
   response = wc.subscriber_action.add_sub(wc.subscribers, sub);
-  wc.subscribers[0].add_shipment Shipment.new :AUG, "2015"
+  ship = Shipment.new :AUG, "2015"
+  ship.wines = [Wine.new, Wine.new, Wine.new]
+  wc.subscribers[0].add_shipment ship
   return response.to_json
 end
 
@@ -121,4 +123,38 @@ get '/vin/sub/:id/wines' do
   response = wc.subscriber_action.get_wines_shipped_to_sub(wc.subscribers, id)
   return response.to_json unless response == nil
   not_found '{ "error": "uid is not found or invalid"}'
+end
+
+get '/vin/sub/:id/wines/:wid' do
+  id = params[:id].to_i
+  wid = params[:wid].to_i
+  response = wc.subscriber_action.get_wine_shipped_to_sub wc.subscribers, id, wid
+  return response.to_json unless response == nil
+  not_found '{ "error": "uid or wid is not found or invalid"}'
+end
+
+get '/vin/sub/:id/wines/:wid/notes' do
+  id = params[:id].to_i
+  wid = params[:wid].to_i
+  response = wc.subscriber_action.get_wine_notes wc.subscribers, id, wid
+  return response.to_json unless response == nil
+  not_found '{ "error": "uid or wid is not found or invalid"}'
+end
+
+post '/vin/sub/:id/wines/:wid/notes' do
+  id = params[:id].to_i
+  wid = params[:wid].to_i
+  note = parse_json request.body
+  response = wc.subscriber_action.add_note_to_wine wc.subscribers, id, wid, note
+  return response.to_json unless response == nil
+  not_found '{ "error": "uid or wid is not found or invalid"}'
+end
+
+get '/vin/sub/:id/wines/:wid/notes/:nid' do
+  id = params[:id].to_i
+  wid = params[:wid].to_i
+  nid = params[:nid].to_i
+  response = wc.subscriber_action.get_wine_note wc.subscribers, id, wid, nid
+  return response.to_json unless response == nil
+  not_found '{ "error": "uid or wid is not found or invalid"}'
 end
