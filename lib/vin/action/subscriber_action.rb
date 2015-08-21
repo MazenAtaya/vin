@@ -93,7 +93,7 @@ class SubscriberAction
         found_it = true
       end
     end
-    found_it ? {} : {'errors' => [(Error.new 9, "One of the resources does not exist")]}
+    found_it ? {"message":"success"} : {'errors' => [(Error.new 9, "One of the resources does not exist")]}
   end
 
   def get_ship_notes(subscribers, sub_id, ship_id)
@@ -141,7 +141,7 @@ class SubscriberAction
           note.content = note_hash['content']
         end
     end
-    note ? {} : nil
+    note ? {"message":"success"} : nil
   end
 
   def delete_note(subs, sub_id, ship_id, note_id)
@@ -153,7 +153,7 @@ class SubscriberAction
         found_it = ship.delete_note note_id
       end
     end
-    found_it ? {} : nil
+    found_it ? {"message":"success"} : nil
   end
 
 
@@ -225,7 +225,7 @@ class SubscriberAction
         end
       end
     end
-    note ? {} : nil
+    note ? {'message':"success"} : nil
   end
 
   def delete_wine_note(subs, sub_id, wine_id, note_id)
@@ -234,21 +234,23 @@ class SubscriberAction
       wine = sub.get_wine wine_id
       if wine
         success = wine.delete_note note_id
-        success ? {} : nil
+        success ? {'message':"success"} : nil
       end
     end
   end
 
   def get_wine_rating(subs, sub_id, wine_id)
+    ratings_count = nil
     rating = nil
     sub = find_object_by_id subs, sub_id
     if sub
       wine = sub.get_wine wine_id
       if wine
         rating = wine.rating
+        ratings_count = wine.ratings_count
       end
     end
-    rating ? {'rating'=> rating} : nil
+    rating ? {'rating'=> rating, 'ratings_count' => ratings_count} : nil
   end
 
   # returns false if rating is invalid. Returns nil if the subscriber or the wine is not found or invalid
@@ -269,7 +271,7 @@ class SubscriberAction
         return false if !success
       end
     end
-    wine ? {} : nil
+    wine ? {"message":"success"} : nil
   end
 
   def get_monthly_selection(subs, sub_id)
