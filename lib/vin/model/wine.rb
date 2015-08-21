@@ -1,6 +1,6 @@
 class Wine
   @@ID = 1
-  attr_reader :id
+  attr_reader :id, :ratings_count
   attr_accessor :label_name, :type, :variety, :grape, :region, :country, :maker, :year
   attr_accessor :notes
 
@@ -16,7 +16,7 @@ class Wine
     @maker = maker
     @year = year
     @notes = Array.new
-    @rating_count = 0
+    @ratings_count = 0
     @rating = 0
   end
 
