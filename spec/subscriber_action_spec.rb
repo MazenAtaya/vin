@@ -202,7 +202,7 @@ describe SubscriberAction do
     @subscriber.add_shipment shipment
     response = @sub_action.delete_note(subs, @subscriber.id, shipment.id, note.id )
     expect(@subscriber.shipments[0].notes.length).to eq(0)
-    expect(response).to eq({})
+    expect(response['message']).to eq('success')
   end
 
   # get wines

@@ -93,7 +93,7 @@ class SubscriberAction
         found_it = true
       end
     end
-    found_it ? {"message":"success"} : {'errors' => [(Error.new 9, "One of the resources does not exist")]}
+    found_it ? {"message" => "success"} : {'errors' => [(Error.new 9, "One of the resources does not exist")]}
   end
 
   def get_ship_notes(subscribers, sub_id, ship_id)
