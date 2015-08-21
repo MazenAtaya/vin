@@ -1,7 +1,5 @@
 class Wine
   @@ID = 1
-  @@ratings_count = 0
-  @@rating = 0
   attr_reader :id
   attr_accessor :label_name, :type, :variety, :grape, :region, :country, :maker, :year
   attr_accessor :notes
@@ -18,6 +16,8 @@ class Wine
     @maker = maker
     @year = year
     @notes = Array.new
+    @rating_count = 0
+    @rating = 0
   end
 
   def add_note(note)
@@ -51,14 +51,14 @@ class Wine
       'country' => @country,
       'maker' => @maker,
       'year' => @year,
-      'ratings_count' => @@ratings_count,
-      'rating' => @@rating
+      'ratings_count' => @ratings_count,
+      'rating' => self.rating
     }
   end
 def add_rating rating
   if rating <= 10 && rating >= 0
-    @@rating += rating.to_i
-    @@ratings_count += 1
+    @rating += rating.to_i
+    @ratings_count += 1
     return true
   end
   false
@@ -66,8 +66,8 @@ end
 
 def rating
   rating = 0.0
-  if @@ratings_count != 0
-    rating = @@rating.to_f / @@ratings_count.to_f
+  if @ratings_count != 0
+    rating = @rating.to_f / @ratings_count.to_f
   end
   rating.round 1
 end
