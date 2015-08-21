@@ -277,7 +277,7 @@ class SubscriberAction
   def get_monthly_selection(subs, sub_id)
     sub = find_object_by_id subs, sub_id
     if sub
-      sub.monthly_selection
+      sub.delivery.to_h
     end
   end
 

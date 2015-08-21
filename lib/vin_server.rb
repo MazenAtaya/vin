@@ -24,7 +24,7 @@ error do
   '{"error": "An error has occurred. Please try again later."}'
 end
 not_found do
-  status 404
+  '{"error": "Not found"}'
 end
 
 # subscriber related api calls
@@ -34,7 +34,9 @@ post '/vin/sub' do
   ship = Shipment.new :AUG, "2015"
   ship.wines = [Wine.new, Wine.new, Wine.new]
   wc.subscribers[0].add_shipment ship
-  return response.to_json
+  status 201
+  headers "Location" => "/vin/sub/" + response["id"].to_s
+  response.to_json
 end
 
 get '/vin/sub/:id' do
@@ -196,4 +198,8 @@ post '/vin/sub/:id/wines/:wid/rating' do
   return response.to_json unless response == nil || response == false
   return '{"error": "The rating is invalid."}' if response == false
   not_found '{ "error": "uid or wid is not found or invalid"}'
+end
+
+get '/vin/sub/:id/delivery' do
+  id = params[:id].to_i
 end
