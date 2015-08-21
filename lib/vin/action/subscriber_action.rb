@@ -274,19 +274,22 @@ class SubscriberAction
     wine ? {"message" => "success"} : nil
   end
 
-  def get_monthly_selection(subs, sub_id)
+  def get_delivery(subs, sub_id)
     sub = find_object_by_id subs, sub_id
     if sub
       sub.delivery.to_h
     end
   end
 
-  def update_monthly_selection(subs, sub_id, monthly_selection)
+  def update_delivery(subs, sub_id, delivery)
     sub = find_object_by_id subs, sub_id
     if sub
-      sub.monthly_selection.day_of_week = monthly_selection.day_of_week
-      sub.monthly_selection.time_of_day = monthly_selection.time_of_day
-      true
+      errors = Validator::validate_delivery delivery
+      if errors.length == 0
+        sub.delivery.day_of_week = delivery['dow']
+        sub.delivery.time_of_day = delivery['tod']
+        {"errors" => errors}
+      end
     end
   end
 

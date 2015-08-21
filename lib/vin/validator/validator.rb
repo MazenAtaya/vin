@@ -4,6 +4,8 @@ module Validator
   class << self
     NAME_MIN_LENGTH = 5
     NAME_MAX_LENGTH = 50
+    DAYS = [:Mon, :Tue, :Wed, :Thu, :Fri, :Sat ]
+    TIMES = [:AM, :PM]
 
     def validate_name (name, errors)
       if (name)
@@ -72,12 +74,50 @@ module Validator
       errors = validate_address(subscriber['address'], errors)
     end
 
+    def validate_day(day, errors)
+
+      if day == nil
+        errors << (Error.new 10, "dow is required")
+        return errors
+      end
+
+      if day.downcase == 'sun'
+        errors << (Error.new 10, "we don't deliver on Sundays. Choose another day.")
+        return errors
+      end
+
+      found_it = @@DAYS.any? { |e| e.to_s.downcase == day.downcase  }
+      if !found_it
+        errors << (Errors.new 11, "The day is not valid. Please choose one of the following: Mon, Tue, Wed, Thu, Fri, Sat.")
+      end
+      errors
+    end
+
+    def validate_time(time, errors)
+      if time == nil
+        errors << (Error.new 12, "tod is required")
+        return errors
+      end
+      found_it = @@Times.any? { |e| e.to_s.downcase == day.downcase  }
+
+      if !found_it
+        errors << (Errors.new 13, "The tod is not valid. Please choose one of the following: AM, PM.")
+      end
+      errors
+    end
+
     def validate_admin(admin)
       []
     end
 
     def validate_monthly_selection(monthly_selection)
       []
+    end
+
+    def validate_delivery(delivery)
+      errors = []
+      errors = validate_day(delivery['dow'], errors)
+      errors = validate_time(delivery['tod'], errors)
     end
 
   end
