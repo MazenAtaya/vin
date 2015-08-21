@@ -141,7 +141,7 @@ class SubscriberAction
           note.content = note_hash['content']
         end
     end
-    note ? {"message":"success"} : nil
+    note ? {"message" => "success"} : nil
   end
 
   def delete_note(subs, sub_id, ship_id, note_id)
@@ -153,7 +153,7 @@ class SubscriberAction
         found_it = ship.delete_note note_id
       end
     end
-    found_it ? {"message":"success"} : nil
+    found_it ? {"message" => "success"} : nil
   end
 
 
@@ -225,7 +225,7 @@ class SubscriberAction
         end
       end
     end
-    note ? {'message':"success"} : nil
+    note ? {'message' => "success"} : nil
   end
 
   def delete_wine_note(subs, sub_id, wine_id, note_id)
@@ -234,7 +234,7 @@ class SubscriberAction
       wine = sub.get_wine wine_id
       if wine
         success = wine.delete_note note_id
-        success ? {'message':"success"} : nil
+        success ? {'message' => "success"} : nil
       end
     end
   end
@@ -271,7 +271,7 @@ class SubscriberAction
         return false if !success
       end
     end
-    wine ? {"message":"success"} : nil
+    wine ? {"message" => "success"} : nil
   end
 
   def get_monthly_selection(subs, sub_id)
