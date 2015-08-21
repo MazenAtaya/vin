@@ -251,9 +251,10 @@ class SubscriberAction
     rating ? {'rating'=> rating} : nil
   end
 
+  # returns false if rating is invalid. Returns nil if the subscriber or the wine is not found or invalid
   def add_wine_rating(subs, sub_id, wine_id, rating_hash)
     rating = rating_hash['rating']
-    return if rating == nil
+    return false if rating == nil
     begin
       rating = Integer(rating)
     rescue
@@ -264,7 +265,8 @@ class SubscriberAction
     if sub
       wine = sub.get_wine wine_id
       if wine
-        wine.add_rating rating
+        success = wine.add_rating rating
+        return false if !success
       end
     end
     wine ? {} : nil

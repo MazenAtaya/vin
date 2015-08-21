@@ -61,6 +61,7 @@ def add_rating rating
     @@ratings_count += 1
     return true
   end
+  false
 end
 
 def rating
