@@ -118,7 +118,8 @@ module Validator
     end
 
     def validate_admin(admin)
-      errors =
+      errors = []
+      errors = validate_name admin['name'], errors
     end
 
     def validate_monthly_selection(monthly_selection)
