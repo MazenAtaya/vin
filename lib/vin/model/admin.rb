@@ -9,4 +9,14 @@ class Admin
     @@ID += 1
     @date = Time.now
   end
+  def date
+    @data.strftime "%m-%d-%Y"
+  end
+  def to_h
+    {
+      'id' => @id,
+      'name' => @name,
+      'create_date' => self.date
+    }
+  end
 end

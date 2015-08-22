@@ -49,7 +49,7 @@ describe SubscriberAction do
   end
 
   it 'should not add the subscriber if the name is not valid' do
-    @sub['name'] = 'Maz'
+    @sub['name'] = 'Ma'
     response = @sub_action.add_sub(@subs, @sub)
     expect(@subs.length).to eq(0)
     expect(response['errors'].length).to eq(1)

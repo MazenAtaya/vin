@@ -248,6 +248,6 @@ put '/vin/admin/:id' do
 end
 
 get '/vin/admin' do
-  response = wc.admin_action.get_admin wc.admins
+  response = wc.admin_action.get_admins wc.admins
   return response.to_json
 end

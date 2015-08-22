@@ -33,8 +33,8 @@ describe Validator do
     expect(errors).to_not be_empty()
   end
 
-  it 'shoud rejects name when it is less than 5' do
-    errors = Validator.validate_name("maz", @errors)
+  it 'shoud rejects name when it is less than 3' do
+    errors = Validator.validate_name("ma", @errors)
     expect(errors).to_not be_empty()
   end
 
