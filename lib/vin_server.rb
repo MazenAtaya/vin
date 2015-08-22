@@ -216,7 +216,6 @@ put '/vin/sub/:id/delivery' do
   delivery = parse_json request.body
   response = wc.subscriber_action.update_delivery(wc.subscribers, id, delivery)
   return response.to_json unless response == nil
-  return 'holy shit'
   not_found '{ "error": "uid is not found or invalid"}'
 end
 
@@ -231,4 +230,24 @@ post '/vin/admin' do
   end
 
   response.to_json
+end
+
+get '/vin/admin/:id' do
+  id = params[:id].to_i
+  response = wc.admin_action.get_admin wc.admins, id
+  return response.to_json unless !response
+  not_found '{ "error": "id is not found or invalid"}'
+end
+
+put '/vin/admin/:id' do
+  id = params[:id].to_i
+  admin = parse_json request.body
+  response = wc.admin_action.add_admin(wc.admins, id, admin)
+  return response.to_json unless !response
+  not_found '{ "error": "id is not found or invalid"}'
+end
+
+get '/vin/admin' do
+  response = wc.admin_action.get_admin wc.admins
+  return response.to_json
 end

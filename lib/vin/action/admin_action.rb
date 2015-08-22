@@ -15,17 +15,25 @@ class AdminAction
   end
 
   def get_admin(admins, admin_id)
+    return if !admin_id
     admin = find_object_by_id admins, admin_id
+    admin.to_h if admin
   end
 
-  def edit_admin(admins, admin_id, name)
+  def edit_admin(admins, admin_id, admin_hash)
+    errors = []
     admin = get_admin admins, admin_id
     if admin
-      errors = Validator::validate_name name
+      errors = Validator::validate_admin admin_hash
       if errors.length == 0
-        admin.name = name
+        admin.name = admin_hash['name']
       end
+      {'errors' => errors}
     end
+  end
+
+  def get_admins(admins)
+    {'admins' => admins.map { |e| {'id' => e.id, 'name' => e.name} }}
   end
 
   def get_revenue
