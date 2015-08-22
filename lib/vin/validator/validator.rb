@@ -90,7 +90,7 @@ module Validator
 
       found_it = @@DAYS.any? { |e| e.to_s.downcase == day.downcase  }
       if !found_it
-        errors << (Errors.new 11, "The day is not valid. Please choose one of the following: Mon, Tue, Wed, Thu, Fri, Sat.")
+        errors << (Error.new 11, "The day is not valid. Please choose one of the following: Mon, Tue, Wed, Thu, Fri, Sat.")
       end
       errors
     end
@@ -103,7 +103,7 @@ module Validator
       found_it = @@Times.any? { |e| e.to_s.downcase == day.downcase  }
 
       if !found_it
-        errors << (Errors.new 13, "The tod is not valid. Please choose one of the following: AM, PM.")
+        errors << (Error.new 13, "The tod is not valid. Please choose one of the following: AM, PM.")
       end
       errors
     end
@@ -112,7 +112,7 @@ module Validator
       return errors if !selection
       found_it = @@SELECTIONS.any? { |e| e.to_s.downcase == selection.downcase }
       if !found_it
-        errors << (Errors.new 14, "selection_type is not valid. Please choose one of the following: AR, AW, RW.")
+        errors << (Error.new 14, "selection_type is not valid. Please choose one of the following: AR, AW, RW.")
       end
       errors
     end
