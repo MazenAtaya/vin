@@ -1,19 +1,20 @@
 require 'phonelib'
 module Validator
 
+  @@NAME_MIN_LENGTH = 5
+  @@NAME_MAX_LENGTH = 50
+  @@DAYS = [:Mon, :Tue, :Wed, :Thu, :Fri, :Sat ]
+  @@TIMES = [:AM, :PM]
+  @@SELECTIONS = [:AR, :AW, :RW]
+
   class << self
-    NAME_MIN_LENGTH = 5
-    NAME_MAX_LENGTH = 50
-    DAYS = [:Mon, :Tue, :Wed, :Thu, :Fri, :Sat ]
-    TIMES = [:AM, :PM]
-    SELECTIONS = [:AR, :AW, :RW]
 
     def validate_name (name, errors)
       if (name)
-        if (name.length < NAME_MIN_LENGTH)
+        if (name.length < @@NAME_MIN_LENGTH)
         errors << {'code' => 1, 'message' => "Name cannot be less than 5 chars"}
         end
-        if (name.length > NAME_MAX_LENGTH)
+        if (name.length > @@NAME_MAX_LENGTH)
           errors << {'code' => 2, 'message' => "Name cannot be more than 50 chars" }
         end
       else
