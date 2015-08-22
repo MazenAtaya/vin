@@ -51,7 +51,9 @@ class AdminAction
   def add_monthly_selection(monthly_selections, monthly_selection)
     errors = Validator::validate_monthly_selection(monthly_selection)
     if errors.length == 0
-      m_s = MonthlySelection.new monthly_selection.month, monthly_selection.year, monthly_selection.type, monthly_selection.wines
+      wines = []
+      wines = monthly_selection['wines'].map { |wine| Wine.from_h wine }
+      m_s = MonthlySelection.new monthly_selection['month'], monthly_selection['year'], monthly_selection['type'], wines
       monthly_selections << m_s
     end
     errors
