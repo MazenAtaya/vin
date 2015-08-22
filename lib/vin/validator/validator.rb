@@ -6,6 +6,7 @@ module Validator
     NAME_MAX_LENGTH = 50
     DAYS = [:Mon, :Tue, :Wed, :Thu, :Fri, :Sat ]
     TIMES = [:AM, :PM]
+    SELECTIONS = [:AR, :AW, :RW]
 
     def validate_name (name, errors)
       if (name)
@@ -106,6 +107,15 @@ module Validator
       errors
     end
 
+    def validate_selection(selection, errors)
+      return errors if !selection
+      found_it = @@SELECTIONS.any? { |e| e.to_s.downcase == selection.downcase }
+      if !found_it
+        errors << (Errors.new 14, "selection_type is not valid. Please choose one of the following: AR, AW, RW.")
+      end
+      errors
+    end
+
     def validate_admin(admin)
       []
     end
@@ -118,6 +128,7 @@ module Validator
       errors = []
       errors = validate_day(delivery['dow'], errors)
       errors = validate_time(delivery['tod'], errors)
+      errors = validate_selection_type(delivery['selection_type'], errors)
     end
 
   end

@@ -207,10 +207,10 @@ get '/vin/sub/:id/delivery' do
   not_found '{ "error": "uid is not found or invalid"}'
 end
 
-get '/vin/sub/:id/delivery' do
+put '/vin/sub/:id/delivery' do
   id = params[:id].to_i
   delivery = parse_json request.body
-  response = wc.subscriber_action.get_monthly_selection(wc.subscribers, id)
+  response = wc.subscriber_action.update_delivery(wc.subscribers, id, delivery)
   return response.to_json unless response == nil
   not_found '{ "error": "uid is not found or invalid"}'
 end
