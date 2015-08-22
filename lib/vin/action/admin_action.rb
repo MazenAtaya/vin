@@ -44,6 +44,10 @@ class AdminAction
     find_object_by_id monthly_selections, monthly_selection_id
   end
 
+  def get_monthly_selections(monthly_selections)
+    {'monthly_selections' => monthly_selections.map { |e| {'id' => e.id, 'selection_month' => e.selection_month, 'type' => e.type.to_s.upcase}  }}
+  end
+
   def add_monthly_selection(monthly_selections, monthly_selection)
     errors = Validator::validate_monthly_selection(monthly_selection)
     if errors.length == 0

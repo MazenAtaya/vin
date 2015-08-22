@@ -6,6 +6,7 @@ module Validator
   @@DAYS = [:Mon, :Tue, :Wed, :Thu, :Fri, :Sat ]
   @@TIMES = [:AM, :PM]
   @@SELECTIONS = [:AR, :AW, :RW]
+  @@MONTHS = [:Jan,	:Feb,	:Mar,	:Apr,	:May,	:June, :July,	:Aug,	:Sept,	:Oct,	:Nov,	:Dec]
 
   class << self
 
@@ -108,6 +109,31 @@ module Validator
       errors
     end
 
+    def validate_selection_month(selection_month, errors)
+      if selection_month
+        month, year = selection_month.split '/'
+        if !is_month(month) || !is_year(year)
+          errors << (Error.new 17, 'The selection_month is not valid. Please send one using this pattern: Month/year. E.g. Feb/2015')
+        end
+      else
+        errors << (Error.new 16, 'The selection_month is required.')
+      end
+      errors
+    end
+
+    def is_month(month)
+      return false if !month
+      @@MONTHS.any? { |e| e.to_s.downcase == month.to_s.downcase  }
+    end
+
+    def is_year(year)
+      year = year.strip
+      return false if !year
+      match = /^20[0-9][0-9]$/.match year
+      return false if !match || match.to_s != year
+      true
+    end
+
     def validate_selection(selection, errors)
       return errors if !selection
       found_it = @@SELECTIONS.any? { |e| e.to_s.downcase == selection.downcase }
@@ -122,8 +148,53 @@ module Validator
       errors = validate_name admin['name'], errors
     end
 
+    def validate_wine(wine, errors, wine_number)
+      if wine
+        if !wine['variety']
+          errors << (Error.new 18, "wine variety for wine#%d is required." % wine_number)
+        end
+        if !wine['wine_type']
+          errors << (Error.new 19, "wine_type for wine#%d required." % wine_number)
+        end
+        if !wine['label_name']
+          errors << (Error.new 20, "label_name for wine#%d is required." % wine_number)
+        end
+        if !wine['grape']
+          errors << (Error.new 21, "grape for wine#%d is required." % wine_number)
+        end
+        if !wine['region']
+          errors << (Error.new 22, "region for wine#%d is required." % wine_number)
+        end
+        if !wine['country']
+          errors << (Error.new 23, "country for wine##{wine_number} is required.")
+        end
+        if !wine['maker']
+          errors << (Error.new 24,  "maker for wine##{wine_number} is required." )
+        end
+        if !wine['year']
+          errors << (Error.new 25, "year for wine##{wine_number} is required.")
+        elsif !is_year(wine['year'])
+            errors << (Error.new 26, "The year for wine##{wine_number} is not valid")
+        end
+      end
+      errors
+    end
+
+    def validate_wines(wines, errors)
+        if !wines
+          errors << (Error.new 27, "At least one wine is required.")
+          return
+        end
+        wines.each_with_index do |e, index|
+          validate_wine e, errors, index
+        end
+    end
+
     def validate_monthly_selection(monthly_selection)
-      []
+      errors = []
+      validate_selection(monthly_selection['type'], errors)
+      validate_selection_month(monthly_selection['selection_month'], errors)
+      errors = validate_wines(monthly_selection['wines'], errors)
     end
 
     def validate_delivery(delivery)
