@@ -210,7 +210,10 @@ end
 put '/vin/sub/:id/delivery' do
   id = params[:id].to_i
   delivery = parse_json request.body
+  puts 'dick'
   response = wc.subscriber_action.update_delivery(wc.subscribers, id, delivery)
+  puts 'shit'
   return response.to_json unless response == nil
+  return 'holy shit'
   not_found '{ "error": "uid is not found or invalid"}'
 end

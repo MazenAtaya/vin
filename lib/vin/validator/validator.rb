@@ -100,7 +100,7 @@ module Validator
         errors << (Error.new 12, "tod is required")
         return errors
       end
-      found_it = @@Times.any? { |e| e.to_s.downcase == day.downcase  }
+      found_it = @@TIMES.any? { |e| e.to_s.downcase == time.downcase  }
 
       if !found_it
         errors << (Error.new 13, "The tod is not valid. Please choose one of the following: AM, PM.")
@@ -129,7 +129,7 @@ module Validator
       errors = []
       errors = validate_day(delivery['dow'], errors)
       errors = validate_time(delivery['tod'], errors)
-      errors = validate_selection_type(delivery['selection_type'], errors)
+      errors = validate_selection(delivery['selection_type'], errors)
     end
 
   end

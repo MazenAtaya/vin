@@ -288,8 +288,8 @@ class SubscriberAction
       if errors.length == 0
         sub.delivery.day_of_week = delivery['dow']
         sub.delivery.time_of_day = delivery['tod']
-        {"errors" => errors}
       end
+      {"errors" => errors}
     end
   end
 
