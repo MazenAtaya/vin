@@ -1,7 +1,7 @@
 require 'phonelib'
 module Validator
 
-  @@NAME_MIN_LENGTH = 5
+  @@NAME_MIN_LENGTH = 3
   @@NAME_MAX_LENGTH = 50
   @@DAYS = [:Mon, :Tue, :Wed, :Thu, :Fri, :Sat ]
   @@TIMES = [:AM, :PM]
@@ -12,7 +12,7 @@ module Validator
     def validate_name (name, errors)
       if (name)
         if (name.length < @@NAME_MIN_LENGTH)
-        errors << {'code' => 1, 'message' => "Name cannot be less than 5 chars"}
+        errors << {'code' => 1, 'message' => "Name cannot be less than 3 chars"}
         end
         if (name.length > @@NAME_MAX_LENGTH)
           errors << {'code' => 2, 'message' => "Name cannot be more than 50 chars" }
@@ -118,7 +118,7 @@ module Validator
     end
 
     def validate_admin(admin)
-      []
+      errors =
     end
 
     def validate_monthly_selection(monthly_selection)

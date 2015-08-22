@@ -34,8 +34,12 @@ post '/vin/sub' do
   ship = Shipment.new :AUG, "2015"
   ship.wines = [Wine.new, Wine.new, Wine.new]
   wc.subscribers[0].add_shipment ship
-  status 201
-  headers "Location" => "/vin/sub/" + response["id"].to_s
+
+  if response['id'] != ""
+    status 201
+    headers "Location" => "/vin/sub/" + response["id"].to_s
+  end
+
   response.to_json
 end
 
@@ -210,10 +214,21 @@ end
 put '/vin/sub/:id/delivery' do
   id = params[:id].to_i
   delivery = parse_json request.body
-  puts 'dick'
   response = wc.subscriber_action.update_delivery(wc.subscribers, id, delivery)
-  puts 'shit'
   return response.to_json unless response == nil
   return 'holy shit'
   not_found '{ "error": "uid is not found or invalid"}'
+end
+
+
+post '/vin/admin' do
+  admin = parse_json request.body
+  response = wc.admin_action.add_admin(wc.admins, admin)
+
+  if response['id'] != ""
+    status 201
+    headers "Location" => "/vin/sub/" + response["id"].to_s
+  end
+
+  response.to_json
 end

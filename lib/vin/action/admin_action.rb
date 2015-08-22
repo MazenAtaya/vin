@@ -3,13 +3,15 @@ require 'vin/helpers/helper_methods'
 class AdminAction
   include Helpers
 
-  def add_admin(admins, admin)
+  def add_admin(admins, admin_hash)
+    id = ""
     errors = Validator::validate_admin admin
     if errors.length == 0
-      admin = Admin.new admin.name
+      admin = Admin.new admin_hash['name']
       admins << admin
-      admin.id
+      id = admin.id
     end
+    {'id' => id, 'errors' => errors}
   end
 
   def get_admin(admins, admin_id)
@@ -42,5 +44,5 @@ class AdminAction
     end
     errors
   end
-  
+
 end
