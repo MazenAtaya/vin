@@ -5,6 +5,10 @@ require_relative 'vin'
 set :port, 8080
 set :environment, :production
 
+configure do
+  set :show_exceptions, false
+end
+
 wc = Vin::WineClub.new
 
 def parse_json(body)
@@ -24,7 +28,9 @@ error do
   '{"error": "An error has occurred. Please try again later."}'
 end
 not_found do
-  '{"error": "Not found"}'
+#  '{"error": "Not found"}'
+#  '{"error": "Not found"}'
+
 end
 
 # subscriber related api calls
@@ -242,7 +248,7 @@ end
 put '/vin/admin/:id' do
   id = params[:id].to_i
   admin = parse_json request.body
-  response = wc.admin_action.add_admin(wc.admins, id, admin)
+  response = wc.admin_action.edit_admin(wc.admins, id, admin)
   return response.to_json unless !response
   not_found '{ "error": "id is not found or invalid"}'
 end

@@ -22,7 +22,7 @@ class AdminAction
 
   def edit_admin(admins, admin_id, admin_hash)
     errors = []
-    admin = get_admin admins, admin_id
+    admin = find_object_by_id admins, admin_id
     if admin
       errors = Validator::validate_admin admin_hash
       if errors.length == 0
