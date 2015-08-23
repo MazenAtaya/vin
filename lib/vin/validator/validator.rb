@@ -194,7 +194,8 @@ module Validator
       errors = []
       validate_selection(monthly_selection['type'], errors)
       validate_selection_month(monthly_selection['selection_month'], errors)
-      errors = validate_wines(monthly_selection['wines'], errors)
+      validate_wines(monthly_selection['wines'], errors)
+      errors
     end
 
     def validate_delivery(delivery)
