@@ -1,12 +1,8 @@
 module Helpers
 
-    def find_object_by_id(objects, id)
-      objects.each do |obj|
-        if (obj.id == id)
-          return obj
-        end
-      end
-      nil
-    end
+  def find_object_by_id(objects, id)
+    return if !id
+    objects.find { |obj| obj.id == id }
+  end
 
 end
