@@ -19,8 +19,10 @@ module Vin
 
   class WineClub
 
-  attr_accessor :subscribers, :admins, :receipts, :subscriber_action, :admin_action, :deliver_action, :monthly_selections
-
+  attr_accessor :subscribers, :admins, :receipts, :monthly_selections
+  attr_accessor :subscriber_action, :admin_action, :deliver_action
+  attr_accessor :box_price, :delivery_charge
+  
   def initialize()
     @subscribers = Array.new
     @admins = Array.new
@@ -29,6 +31,8 @@ module Vin
     @admin_action = AdminAction.new
     @deliver_action = DeliveryPartnerAction.new
     @monthly_selections = Array.new
+    @box_price = 50
+    @delivery_charge = 5
   end
 
 

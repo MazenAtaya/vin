@@ -274,3 +274,22 @@ get '/vin/admin/monthly_selection/:id' do
   return response.to_json unless response == nil
   not_found '{ "error": "id is not found or invalid"}'
 end
+
+
+get '/vin/receipt' do
+  response = wc.deliver_action.get_receipts wc.receipts
+  response.to_json
+end
+
+get '/vin/receipt/:id' do
+  id = params[:id].to_i
+  response = wc.deliver_action.get_receipt wc.receipts, id
+  response.to_json unless !response
+  not_found '{ "error": "id is not found or invalid"}'
+end
+
+post '/vin/receipt' do
+  receipt_hash = parse_json request.body
+  response = wc.deliver_action.add_receipt wc.subscribers, receipts, receipt_hash
+  response.to_json
+end

@@ -205,6 +205,27 @@ module Validator
       errors = validate_selection(delivery['selection_type'], errors)
     end
 
+    def validate_receipt(subscribers, receipt_hash)
+      errors = []
+      if receipt_hash
+
+        if !receipt_hash['name']
+          errors << (Error.new 28, "Name is required")
+        elsif !is_sub(subscribers, receipt_hash['name'])
+          errors << (Error.new 29, "Name is not of a valid subscriber.")
+        end
+
+      else
+        errors << (Error.new 28, "Name is required.")
+      end
+      errors
+    end
+
+    def is_sub(subscribers, name)
+      return false if !name
+      subscribers.any? { |e| e.name.downcase == name.downcase  }
+    end
+
   end
 
 end

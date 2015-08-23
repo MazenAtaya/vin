@@ -26,7 +26,7 @@ describe DeliveryPartnerAction do
     receipts = [receipt]
     response = DeliveryPartnerAction.new.get_receipt_by_id receipts, receipt.id
     expect(response).to_not be_nil
-    expect(response.id).to eq(receipt.id)
+    expect(response['id']).to eq(receipt.id)
   end
 
 end
