@@ -41,7 +41,8 @@ class AdminAction
   end
 
   def get_monthly_selection(monthly_selections, monthly_selection_id)
-    find_object_by_id monthly_selections, monthly_selection_id
+    m_s = find_object_by_id monthly_selections, monthly_selection_id
+    m_s.to_h
   end
 
   def get_monthly_selections(monthly_selections)
