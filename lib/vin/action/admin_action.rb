@@ -49,7 +49,7 @@ class AdminAction
     {'monthly_selections' => monthly_selections.map { |e| {'id' => e.id, 'selection_month' => e.selection_month, 'type' => e.type.to_s.upcase}  }}
   end
 
-  def add_monthly_selection(monthly_selections, monthly_selection)
+  def add_monthly_selection(monthly_selections, monthly_selection, wine_club_wines)
     errors = Validator::validate_monthly_selection(monthly_selection)
     m_s_id = ""
     if errors.length == 0
@@ -58,6 +58,7 @@ class AdminAction
       month, year = monthly_selection['selection_month'].split '/'
       m_s = MonthlySelection.new month, year, monthly_selection['type'], wines
       monthly_selections << m_s
+      wines.each {|w| wine_club_wines.push w}
       m_s_id = m_s.id
     end
     {'id' => m_s_id, 'errors' => errors}

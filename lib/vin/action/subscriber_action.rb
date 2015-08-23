@@ -294,7 +294,8 @@ class SubscriberAction
   end
 
   def get_wine(wines, wine_id)
-    find_object_by_id wines, wine_id
+    wine = find_object_by_id wines, wine_id
+    return wine.to_h unless !wine
   end
 
   def search(subs, sub_id, query)
