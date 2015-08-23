@@ -305,3 +305,12 @@ get '/vin/wine/:id' do
   return response.to_json unless !response
   not_found '{ "error": "id is not found or invalid"}'
 end
+
+get '/vin/sub/:id/search' do
+  id = params[:id].to_i
+  query = params[:query]
+  query ||= ""
+  response = wc.subscriber_action.search subscribers, id, query
+  response.to_json unless !response
+  not_found '{ "error": "id is not found or invalid"}'
+end

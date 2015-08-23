@@ -294,6 +294,7 @@ class SubscriberAction
   end
 
   def get_wine(wines, wine_id)
+    return if !wine_id
     wine = find_object_by_id wines, wine_id
     return wine.to_h unless !wine
   end
@@ -301,7 +302,7 @@ class SubscriberAction
   def search(subs, sub_id, query)
     sub = find_object_by_id subs, sub_id
     if sub
-      wines = get_wines_shipped_to_sub subs, sub_id
+      wines = sub.get_wines
       wines = wines.select { |wine| wine.is_match?(query) }
       notes = [wines.map {|wine| wine.notes }, sub.shipments.map { |ship| ship.notes }].flatten
       notes = notes.select { |note| note.is_match?(query) }
