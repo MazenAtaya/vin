@@ -28,5 +28,15 @@ class MonthlySelection
     @month.to_s.capitalize + '/' + @year.to_s
   end
 
+  def to_h
+    {
+      'id' => @id,
+      'selection_month' => self.selection_month,
+      'type' => @type,
+      'create_date' => @date.strftime("%m-%d-%Y"),
+      'created_by' => 12,
+      'wines' => @wines.map { |e| {'id' => e.id, 'label_name' => e.label_name}  }
+    }
+  end
 
 end
