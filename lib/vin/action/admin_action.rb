@@ -55,7 +55,8 @@ class AdminAction
     if errors.length == 0
       wines = []
       wines = monthly_selection['wines'].map { |wine| Wine.from_h wine }
-      m_s = MonthlySelection.new monthly_selection['month'], monthly_selection['year'], monthly_selection['type'], wines
+      month, year = monthly_selection['selection_month'].split '/'
+      m_s = MonthlySelection.new month, year, monthly_selection['type'], wines
       monthly_selections << m_s
       m_s_id = m_s.id
     end
