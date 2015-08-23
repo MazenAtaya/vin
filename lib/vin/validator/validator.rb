@@ -174,7 +174,7 @@ module Validator
         if !wine['year']
           errors << (Error.new 25, "year for wine##{wine_number} is required.")
         elsif !is_year(wine['year'])
-            errors << (Error.new 26, "The year for wine##{wine_number} is not valid")
+            errors << (Error.new 26, "year for wine##{wine_number} is not valid")
         end
       end
       errors
@@ -186,7 +186,7 @@ module Validator
           return
         end
         wines.each_with_index do |e, index|
-          validate_wine e, errors, index
+          validate_wine e, errors, index+1
         end
     end
 

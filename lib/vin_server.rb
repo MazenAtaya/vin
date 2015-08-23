@@ -267,3 +267,10 @@ post '/vin/admin/monthly_selection' do
   end
   response.to_json
 end
+
+get '/vin/admin/monthly_selection/:id' do
+  id = params[:id].to_i
+  response = wc.admin_action.get_monthly_selection wc.monthly_selections, id
+  return response.to_json unless response == nil
+  not_found '{ "error": "id is not found or invalid"}'
+end
