@@ -24,6 +24,7 @@ class DeliveryPartnerAction
     if errors.length == 0
       sub = subscribers.find {|e| e.name.downcase == receipt_hash['name'].downcase }
       receipt = Receipt.new sub.id, sub.name, receipt_hash['received_by']
+      receipts << receipt
       id = receipt.id
     end
     {'id' => id, 'errors' => errors }

@@ -283,13 +283,13 @@ end
 
 get '/vin/receipt/:id' do
   id = params[:id].to_i
-  response = wc.deliver_action.get_receipt wc.receipts, id
+  response = wc.deliver_action.get_receipt_by_id wc.receipts, id
   response.to_json unless !response
   not_found '{ "error": "id is not found or invalid"}'
 end
 
 post '/vin/receipt' do
   receipt_hash = parse_json request.body
-  response = wc.deliver_action.add_receipt wc.subscribers, receipts, receipt_hash
+  response = wc.deliver_action.add_receipt wc.subscribers, wc.receipts, receipt_hash
   response.to_json
 end
