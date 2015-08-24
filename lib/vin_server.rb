@@ -261,7 +261,6 @@ end
 post '/vin/admin/monthly_selection' do
   monthly_selection = parse_json request.body
   response = wc.admin_action.add_monthly_selection wc.monthly_selections, monthly_selection, wc.wines
-  puts wc.wines.length
   if response['id'] != ""
     status 201
     headers "Location" => "/vin/admin/monthly_selection/" + response["id"].to_s
@@ -285,7 +284,6 @@ end
 get '/vin/receipt/:id' do
   id = params[:id].to_i
   response = wc.deliver_action.get_receipt_by_id wc.receipts, id
-  puts response.to_s
   return response.to_json unless !response
   not_found '{ "error": "id is not found or invalid"}'
 end
@@ -297,20 +295,17 @@ post '/vin/receipt' do
 end
 
 get '/vin/wine/:id' do
-  puts 'hello there my friend'
   id = params[:id].to_i
-  puts wc.wines.length
   response = wc.subscriber_action.get_wine wc.wines, id
-  puts wc.wines.length
   return response.to_json unless !response
   not_found '{ "error": "id is not found or invalid"}'
 end
 
 get '/vin/sub/:id/search' do
   id = params[:id].to_i
-  query = params[:query]
+  query = params[:q]
   query ||= ""
-  response = wc.subscriber_action.search subscribers, id, query
-  response.to_json unless !response
+  response = wc.subscriber_action.search wc.subscribers, id, query
+  return response.to_json unless !response
   not_found '{ "error": "id is not found or invalid"}'
 end

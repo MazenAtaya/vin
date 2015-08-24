@@ -304,7 +304,7 @@ class SubscriberAction
     if sub
       wines = sub.get_wines
       wines = wines.select { |wine| wine.is_match?(query) }
-      notes = [wines.map {|wine| wine.notes }, sub.shipments.map { |ship| ship.notes }].flatten
+      notes = [sub.get_wines.map {|wine| wine.notes }, sub.shipments.map { |ship| ship.notes }].flatten
       notes = notes.select { |note| note.is_match?(query) }
       shipments = sub.shipments.select {|ship| ship.is_match?(query) }
       {
