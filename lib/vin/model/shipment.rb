@@ -71,6 +71,6 @@ class Shipment
   end
 
   def total_cost
-    @number_of_boxes * @box_price + @delivery_charge
+    @number_of_boxes * @box_price
   end
 end

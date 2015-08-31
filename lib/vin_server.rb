@@ -38,6 +38,7 @@ post '/vin/sub' do
   sub = parse_json request.body
   response = wc.subscriber_action.add_sub(wc.subscribers, sub);
   ship = Shipment.new :AUG, "2015"
+  ship.status = :Delivered
   ship.wines = [Wine.new, Wine.new, Wine.new]
   wc.subscribers[0].add_shipment ship
 
@@ -225,7 +226,7 @@ put '/vin/sub/:id/delivery' do
   not_found '{ "error": "uid is not found or invalid"}'
 end
 
-
+# Admin related api calls
 post '/vin/admin' do
   admin = parse_json request.body
   response = wc.admin_action.add_admin(wc.admins, admin)
@@ -245,6 +246,11 @@ get '/vin/admin/:id' do
   not_found '{ "error": "id is not found or invalid"}'
 end
 
+get '/vin/revenue' do
+  response = wc.admin_action.get_revenue wc.subscribers
+  response.to_json
+end
+
 put '/vin/admin/:id' do
   id = params[:id].to_i
   admin = parse_json request.body
@@ -252,6 +258,7 @@ put '/vin/admin/:id' do
   return response.to_json unless !response
   not_found '{ "error": "id is not found or invalid"}'
 end
+
 
 get '/vin/admin' do
   response = wc.admin_action.get_admins wc.admins
@@ -308,10 +315,4 @@ get '/vin/sub/:id/search' do
   response = wc.subscriber_action.search wc.subscribers, id, query
   return response.to_json unless !response
   not_found '{ "error": "id is not found or invalid"}'
-end
-
-get '/vin/admin/revenue' do
-  response = wc.admin_action.get_revenue wc.subscribers
-  response.to_json
-  puts 'shit'
 end
