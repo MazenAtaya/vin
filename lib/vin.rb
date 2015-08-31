@@ -32,12 +32,9 @@ module Vin
     @deliver_action = DeliveryPartnerAction.new
     @monthly_selections = Array.new
     @wines = Array.new
-    @box_price = 50
-    @delivery_charge = 5
+    @box_price = 49.99
+    @delivery_charge = 9.99
   end
-
-
-
+  
   end
-
 end

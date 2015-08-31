@@ -2,8 +2,9 @@ class Shipment
   @@ID = 1
   attr_reader :id
   attr_accessor :month, :year, :type, :status, :date, :wines, :notes
+  attr_accessor :number_of_boxes, :box_price, :delivery_charge
 
-  def initialize(month, year, type=:RW, status=:PENDING, date=Time.new, wines=Array.new, notes=Array.new)
+  def initialize(month, year, type=:RW, status=:PENDING, date=Time.new, wines=Array.new, notes=Array.new, number_of_boxes=1, box_price=49.99, delivery_charge=9.99)
     @id = @@ID
     @@ID += 1
     @month = month
@@ -13,6 +14,9 @@ class Shipment
     @date = date
     @wines = wines
     @notes = notes
+    @number_of_boxes = number_of_boxes
+    @box_price = box_price
+    @delivery_charge = delivery_charge
   end
 
   def add_note(note)
@@ -64,5 +68,9 @@ class Shipment
 
   def get_note(nid)
     @notes.find {|e| e.id == nid }
+  end
+
+  def total_cost
+    @number_of_boxes * @box_price + @delivery_charge
   end
 end

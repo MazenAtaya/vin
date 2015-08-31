@@ -36,8 +36,28 @@ class AdminAction
     {'admins' => admins.map { |e| {'id' => e.id, 'name' => e.name} }}
   end
 
-  def get_revenue
-    1000
+  def get_revenue(subscribers)
+
+    units_delivered, units_returned, wine_revenue, delivery_revenue  = 0, 0, 0, 0
+
+    subscribers.each do |sub|
+      sub.shipments.each do |ship|
+        if ship.status == :Delivered
+          units_delivered += ship.number_of_boxes
+          wine_revenue += ship.total_cost
+          delivery_revenue += ship.delivery_charge
+        elsif ship.status == :Returned
+          units_returned += ship.number_of_boxes
+        end
+      end
+    end
+
+    {
+      'units_delivered' => units_delivered,
+      'units_returned' => units_returned,
+      'wine_revenue' => wine_revenue,
+      'delivery_revenue' => delivery_revenue
+    }
   end
 
   def get_monthly_selection(monthly_selections, monthly_selection_id)

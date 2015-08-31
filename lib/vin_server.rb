@@ -309,3 +309,9 @@ get '/vin/sub/:id/search' do
   return response.to_json unless !response
   not_found '{ "error": "id is not found or invalid"}'
 end
+
+get '/vin/admin/revenue' do
+  response = wc.admin_action.get_revenue wc.subscribers
+  response.to_json
+  puts 'shit'
+end
