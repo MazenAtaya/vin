@@ -6,7 +6,7 @@ class SubscriberAction
 
   def add_sub (subscribers, sub)
     id = ""
-    errors = Validator.validate_sub(sub)
+    errors = Validator.validate_sub(sub, subscribers)
     if (errors.length == 0)
       address = Address.new sub['address']['street'], sub['address']['city'], sub['address']['state'], sub['address']['zip']
       new_sub = Subscriber.new sub['name'], sub['email'], address, sub['phone'], sub['facebook'], sub['twitter']
@@ -22,7 +22,7 @@ class SubscriberAction
     subscriber = find_object_by_id subscribers, sub_id
     errors = []
     if subscriber
-        errors = Validator.validate_sub(sub)
+        errors = Validator.validate_sub(sub, subscribers.select { |e| e.id != sub_id })
         if errors.length == 0
           subscriber.name = sub['name']
           subscriber.email = sub['email']

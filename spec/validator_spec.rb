@@ -19,7 +19,7 @@ describe Validator do
   end
 
   it 'should accepts email when it is valid' do
-    errors = Validator.validate_email(@email, @errors)
+    errors = Validator.validate_email(@email,[], @errors)
     expect(errors).to be_empty()
   end
 
@@ -44,21 +44,21 @@ describe Validator do
   end
 
   it 'should reject email when it is not valid' do
-    errors = Validator.validate_email("mataya@mataya", @errors)
-    errors = Validator.validate_email("matata", errors)
-    errors = Validator.validate_email("mataya@12312", errors)
+    errors = Validator.validate_email("mataya@mataya", [], @errors)
+    errors = Validator.validate_email("matata", [],errors)
+    errors = Validator.validate_email("mataya@12312",[], errors)
     expect(errors.length).to eq(3)
   end
 
   it 'should reject email when it is nil' do
-    errors = Validator.validate_email(nil, @errors)
+    errors = Validator.validate_email(nil,[], @errors)
     expect(errors).to_not be_empty()
   end
 
   it 'should reject phone when it is invalid' do
     errors = Validator.validate_phone("notvalid", @errors)
     errors = Validator.validate_phone("1231", errors)
-    errors = Validator.validate_email("123123123444", @errors)
+    errors = Validator.validate_email("123123123444",[], @errors)
     expect(errors).to_not be_empty()
   end
 

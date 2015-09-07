@@ -25,11 +25,14 @@ module Validator
       errors
     end
 
-    def validate_email (email, errors)
+    def validate_email (email, emails, errors)
       if (email)
         if (email =~ /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i )
         else
           errors << (Error.new 4, "Email is not valid")
+        end
+        if (emails.any? { |e| e.downcase == email.downcase })
+          errors << (Error.new 7, "Email is already in use by one of the subscribers")
         end
       else
         errors <<  (Error.new 5, "Email is required")
@@ -70,10 +73,10 @@ module Validator
       errors
     end
 
-    def validate_sub (subscriber)
+    def validate_sub (subscriber, subscribers)
       errors = Array.new
       errors = validate_name(subscriber['name'], errors)
-      errors = validate_email(subscriber['email'], errors)
+      errors = validate_email(subscriber['email'], subscribers.map { |e| e.email }, errors)
       errors = validate_phone(subscriber['phone'], errors)
       errors = validate_address(subscriber['address'], errors)
     end
