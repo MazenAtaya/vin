@@ -145,7 +145,7 @@ describe SubscriberAction do
     expect(response['shipments'].length).to eq(1)
     expect(response['shipments'][0]['id']).to eq(shipment.id)
     expect(response['shipments'][0]['selection_month']).to eq('FEB/2015')
-    expect(response['shipments'][0]['status']).to eq(:PENDING.to_s)
+    expect(response['shipments'][0]['status']).to eq(:Pending.to_s)
   end
 
   # get_sub_shipment
@@ -173,7 +173,7 @@ describe SubscriberAction do
     response = @sub_action.get_sub_shipment(subs, @subscriber.id, shipment.id)
     expect(response['id']).to eq(shipment.id)
     expect(response['selection_month']).to eq('FEB/2015')
-    expect(response['status']).to eq(:PENDING.to_s)
+    expect(response['status']).to eq(:Pending.to_s)
     expect(response['date']).to eq(Time.now.strftime("%d-%m-%Y"))
     expect(response['type']).to eq(:RW.to_s)
     expect(response['wines'].length).to eq(2)
@@ -251,7 +251,7 @@ describe SubscriberAction do
 
   it 'Should return all the wines, notes and shipments that match the seach query' do
     shipment1 = Shipment.new :FEB, '2015'
-    shipment2 = Shipment.new :MAR, '2014', :RW, :PENDING, Time.new(2011)
+    shipment2 = Shipment.new :MAR, '2014', :RW, :Pending, Time.new(2011)
     my_wine = Wine.new "The Mission", "Table", "Red", "Cabernet Sauvignon", "Napa", "USA", "Sterling", "2015"
     note = Note.new "This is a note."
     shipment1.wines = [Wine.new, Wine.new, my_wine]

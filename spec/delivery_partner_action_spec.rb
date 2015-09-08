@@ -5,20 +5,24 @@ describe DeliveryPartnerAction do
   before :each do
     @addess = Address.new "244 W 31st", "Chicago", "IL", "60661"
     @sub = Subscriber.new "Mazen", "mataya@hawk.iit.edu", @addess, "7734922211"
-
+    @monthly_selection = MonthlySelection.new :JAN, 2015, :AR, [Wine.new, Wine.new, Wine.new]
   end
 
   it 'Should return a list of customers to deliver to' do
     subs = [@sub]
-    response = DeliveryPartnerAction.new.get_customers_to_deliver_to subs, :JAN, "2015"
+    response = DeliveryPartnerAction.new.get_customers_to_deliver_to subs, @monthly_selection, 49.99, 5.99
     expect(response.length).to eq(1)
   end
 
-  it 'Should return an empty list when customers already have shipments for them' do
+  it 'Should return an empty list when customers already have shipments for them and its Delivered' do
     subs = [@sub]
-    @sub.add_shipment Shipment.new :JAN, "2015"
-    response = DeliveryPartnerAction.new.get_customers_to_deliver_to subs, :JAN, "2015"
-    expect(response.length).to eq(0)
+    ship = Shipment.new :JAN, 2015, :AR
+    @sub.shipments = [ship]
+    puts @sub
+    response = DeliveryPartnerAction.new.get_customers_to_deliver_to subs, @monthly_selection, 49.99, 5.99
+    expect(@sub.shipments.length).to eq(2)
+    expect(response['deliver_to'].length).to eq(0)
+
   end
 
   it 'Should return the receipt with the provided id' do

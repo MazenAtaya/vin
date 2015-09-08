@@ -4,7 +4,7 @@ class Shipment
   attr_accessor :month, :year, :type, :status, :date, :wines, :notes
   attr_accessor :number_of_boxes, :box_price, :delivery_charge
 
-  def initialize(month, year, type=:RW, status=:PENDING, date=Time.new, wines=Array.new, notes=Array.new, number_of_boxes=1, box_price=49.99, delivery_charge=9.99)
+  def initialize(month, year, type=:RW, status=:Pending, date=Time.new, wines=Array.new, notes=Array.new, number_of_boxes=1, box_price=49.99, delivery_charge=9.99)
     @id = @@ID
     @@ID += 1
     @month = month

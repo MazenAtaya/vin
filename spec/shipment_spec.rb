@@ -5,7 +5,7 @@ describe Shipment do
   before :each do
     wine = Wine.new "The Mission", "Table", "Red", "Cabernet Sauvignon", "Napa", "USA", "Sterling", "2011"
     note = Note.new "This is a note."
-    @ship = Shipment.new :AUG, '2015', :RW, :PENDING, Time.now, [wine], [note]
+    @ship = Shipment.new :AUG, '2015', :RW, :Pending, Time.now, [wine], [note]
   end
 
   it 'Should do something useful' do
@@ -20,7 +20,7 @@ describe Shipment do
 
   it 'Should have default value for delivery_status' do
     shipment = Shipment.new :AUGUST, '2015'
-    expect(shipment.status).to eq(:PENDING)
+    expect(shipment.status).to eq(:Pending)
   end
 
   it 'Should have an array of notes' do

@@ -4,12 +4,45 @@ class DeliveryPartnerAction
 
   include Helpers
 
-  def get_customers_to_deliver_to(subscribers, month, year)
-    subscribers.select do |sub|
+  def get_customers_to_deliver_to(subscribers, monthly_selection, box_price, delivery_charge)
+    subs = subscribers.select do |sub|
       sub.shipments.none? do |e|
-        e.month == month && e.year == year
+        e.month == monthly_selection.month && e.year == monthly_selection.year
       end
     end
+    subs.each do |sub|
+      puts 'I will be fucked and raped and murdered if that is true'
+      puts sub
+      puts sub.shipments.length
+      shipment = Shipment.new monthly_selection.month, monthly_selection.year
+      shipment.type = sub.delivery.selection_type
+      shipment.wines = monthly_selection.wines
+      shipment.number_of_boxes = sub.delivery.number_of_boxes
+      shipment.box_price = box_price
+      shipment.delivery_charge = delivery_charge
+      sub.add_shipment shipment
+      puts sub.shipments.length
+    end
+
+    subs = subscribers.select do |sub|
+      sub.shipments.any? { |e| e.month == monthly_selection.month && e.status = :Pending  }
+    end
+
+    subs = subs.map { |e|
+      {
+        'name' => e.name,
+        'phone' => e.phone,
+        'email' => e.email,
+        'address' => e.address.to_h,
+        'dow' => e.delivery.day_of_week,
+        'tod' => e.delivery.time_of_day,
+        'type' =>e.delivery.selection_type,
+        'number_of_boxes' => e.delivery.number_of_boxes
+      }
+    }
+
+    {'deliver_to' => subs}
+
   end
 
   def get_receipt_by_id(receipts, receipt_id)
