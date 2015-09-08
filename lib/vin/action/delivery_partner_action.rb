@@ -17,6 +17,7 @@ class DeliveryPartnerAction
       shipment.number_of_boxes = sub.delivery.number_of_boxes
       shipment.box_price = box_price
       shipment.delivery_charge = delivery_charge
+      sub.add_shipment shipment
     end
 
     subs = subscribers.select do |sub|
