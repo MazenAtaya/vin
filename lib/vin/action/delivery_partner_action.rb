@@ -52,6 +52,7 @@ class DeliveryPartnerAction
     if errors.length == 0
       sub = subscribers.find {|e| e.name.downcase == receipt_hash['name'].downcase }
       receipt = Receipt.new sub.id, sub.name, receipt_hash['received_by']
+      mark_shipment_as_received sub
       receipts << receipt
       id = receipt.id
     end
@@ -69,6 +70,17 @@ class DeliveryPartnerAction
               }
             }
     }
+  end
+
+  def mark_shipment_as_received(sub)
+    month = Date::MONTHNAMES[Date.today.month][0..2].to_sym
+    year =  Time.now.year
+    ship = sub.shipments.find do |ship|
+      ship.month == month && ship.year == year
+    end
+    if ship
+      ship.status = :Delivered
+    end
   end
 
 
