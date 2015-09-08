@@ -29,8 +29,8 @@ class DeliveryPartnerAction
         'phone' => e.phone,
         'email' => e.email,
         'address' => e.address.to_h,
-        'dow' => e.delivery.day_of_week,
-        'tod' => e.delivery.time_of_day,
+        'dow' => e.shipments.last.day_of_week,
+        'tod' => e.shipments.last.time_of_day,
         'type' =>e.delivery.selection_type,
         'number_of_boxes' => e.delivery.number_of_boxes
       }
