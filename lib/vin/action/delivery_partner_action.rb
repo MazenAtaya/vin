@@ -9,25 +9,19 @@ class DeliveryPartnerAction
       sub.shipments.none? do |e|
         e.month == monthly_selection.month && e.year == monthly_selection.year
       end
-    end
+   end
     subs.each do |sub|
-      puts 'I will be fucked and raped and murdered if that is true'
-      puts sub
-      puts sub.shipments.length
       shipment = Shipment.new monthly_selection.month, monthly_selection.year
       shipment.type = sub.delivery.selection_type
       shipment.wines = monthly_selection.wines
       shipment.number_of_boxes = sub.delivery.number_of_boxes
       shipment.box_price = box_price
       shipment.delivery_charge = delivery_charge
-      sub.add_shipment shipment
-      puts sub.shipments.length
     end
 
     subs = subscribers.select do |sub|
-      sub.shipments.any? { |e| e.month == monthly_selection.month && e.status = :Pending  }
+      sub.shipments.any? { |e| e.month = monthly_selection.month && e.year == monthly_selection.year && e.status == :Pending  }
     end
-
     subs = subs.map { |e|
       {
         'name' => e.name,

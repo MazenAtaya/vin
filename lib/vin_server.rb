@@ -320,6 +320,6 @@ get '/vin/sub/:id/search' do
   not_found '{ "error": "id is not found or invalid"}'
 end
 get '/vin/partner' do
-  response = wc.get_customers_to_deliver_to wc.subscribers, wc.monthly_selections.last, wc.box_price, wc.delivery_charge
+  response = wc.deliver_action.get_customers_to_deliver_to wc.subscribers, wc.monthly_selections.last, wc.box_price, wc.delivery_charge
   response.to_json
 end
