@@ -21,7 +21,7 @@ class DeliveryPartnerAction
     end
 
     subs = subscribers.select do |sub|
-      sub.shipments.any? { |e| e.month = monthly_selection.month && e.year == monthly_selection.year && e.status == :Pending  }
+      sub.shipments.any? { |e| e.month == monthly_selection.month && e.year == monthly_selection.year && e.status == :Pending  }
     end
     subs = subs.map { |e|
       {
