@@ -324,8 +324,8 @@ class SubscriberAction
         if errors.length == 0
           ship.day_of_week = hash['delivery_day'] || ship.day_of_week
           ship.time_of_day = hash['time_of_day'] || ship.time_of_day
-          {"errors" => errors}
         end
+        {"errors" => errors}
       end
     end
   end
