@@ -39,11 +39,11 @@ post '/vin/sub' do
   response = wc.subscriber_action.add_sub(wc.subscribers, sub);
   ship = Shipment.new :AUG, "2015"
   ship.status = :Delivered
-  ship1 = Shipment.new :AUG, "2015"
-  ship1.status = :Returned
+  ship1 = Shipment.new :JAN, "2015"
+  ship1.status = :Pending
   ship.wines = [Wine.new, Wine.new, Wine.new]
-  wc.subscribers[0].add_shipment ship
-  wc.subscribers[0].add_shipment ship1
+  #wc.subscribers[0].add_shipment ship
+  #wc.subscribers[0].add_shipment ship1
 
   if response['id'] != ""
     status 201
@@ -80,6 +80,15 @@ get '/vin/sub/:id/shipments/:sid' do
   id = params[:id].to_i
   sid = params[:sid].to_i
   response = wc.subscriber_action.get_sub_shipment(wc.subscribers, id, sid)
+  return response.to_json unless response == nil
+  not_found'{ "error": "Either the uid or the sid is not found or invalid"}'
+end
+
+put '/vin/sub/:id/shipments/:sid' do
+  id = params[:id].to_i
+  sid = params[:sid].to_i
+  hash = parse_json request.body
+  response = wc.subscriber_action.update_shipment_info(wc.subscribers, id, sid, hash)
   return response.to_json unless response == nil
   not_found'{ "error": "Either the uid or the sid is not found or invalid"}'
 end

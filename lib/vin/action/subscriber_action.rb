@@ -315,4 +315,19 @@ class SubscriberAction
     end
   end
 
+  def update_shipment_info(subs, sub_id, ship_id, hash)
+    sub = find_object_by_id subs, sub_id
+    if sub
+      ship = sub.get_shipment ship_id
+      if ship
+        errors = Validator::validate_ship_info hash
+        if errors.length == 0
+          ship.day_of_week = hash['delivery_day'] || ship.day_of_week
+          ship.time_of_day = hash['time_of_day'] || ship.time_of_day
+          {"errors" => errors}
+        end
+      end
+    end
+  end
+
 end

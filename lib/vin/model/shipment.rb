@@ -3,6 +3,7 @@ class Shipment
   attr_reader :id
   attr_accessor :month, :year, :type, :status, :date, :wines, :notes
   attr_accessor :number_of_boxes, :box_price, :delivery_charge
+  attr_accessor :day_of_week, :time_of_day
 
   def initialize(month, year, type=:RW, status=:Pending, date=Time.new, wines=Array.new, notes=Array.new, number_of_boxes=1, box_price=49.99, delivery_charge=9.99)
     @id = @@ID
@@ -17,6 +18,8 @@ class Shipment
     @number_of_boxes = number_of_boxes
     @box_price = box_price
     @delivery_charge = delivery_charge
+    @day_of_week = :Mon
+    @time_of_day = :PM
   end
 
   def add_note(note)

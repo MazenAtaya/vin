@@ -230,6 +230,24 @@ module Validator
       subscribers.any? { |e| e.name.downcase == name.downcase  }
     end
 
+    def validate_ship_info(ship_hash)
+      errors = []
+      if ship_hash['delivery_day']
+        found_it = @@DAYS.any? { |e| e.to_s.downcase == ship_hash['delivery_day'].downcase  }
+        if !found_it
+          errors << (Error.new 11, "The day is not valid. Please choose one of the following: Mon, Tue, Wed, Thu, Fri, Sat.")
+        end
+      end
+
+      if ship_hash['time_of_day']
+        found_it = @@TIMES.any? { |e| e.to_s.downcase == ship_hash['time_of_day'].downcase  }
+        if !found_it
+          errors << (Error.new 13, "The time_of_day is not valid. Please choose one of the following: AM, PM.")
+        end
+      end
+      errors
+    end
+
   end
 
 end
