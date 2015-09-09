@@ -81,21 +81,6 @@ class SubscriberAction
     shipment ? shipment.to_h : nil
   end
 
-  def update_sub_ship(subscribers, sub_id, ship_id, ship_new_info)
-    found_it = false
-    sub = find_object_by_id(subscribers, sub_id)
-    if (sub)
-      ship = find_object_by_id(sub.shipments, ship_id)
-      if (ship)
-        ship.monthly_selection.day_of_week = ship_new_info.day_of_week
-        ship.monthly_selection.time_of_day = ship_new_info.time_of_day
-        ship.monthly_selection.selection_type = ship_new_info.selection_type
-        found_it = true
-      end
-    end
-    found_it ? {"message" => "success"} : {'errors' => [(Error.new 9, "One of the resources does not exist")]}
-  end
-
   def get_ship_notes(subscribers, sub_id, ship_id)
     ship = nil
     sub = find_object_by_id subscribers, sub_id
