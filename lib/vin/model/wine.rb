@@ -55,7 +55,7 @@ class Wine
       'rating' => self.rating
     }
   end
-def add_rating rating
+def add_rating (rating)
   if rating <= 10 && rating >= 0
     @rating += rating.to_i
     @ratings_count += 1

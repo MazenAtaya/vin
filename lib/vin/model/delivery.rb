@@ -15,7 +15,6 @@ class Delivery
       'dow' => @day_of_week.to_s,
       'tod' => @time_of_day.to_s,
       'selection_type' => @selection_type.to_s
-
     }
   end
 
