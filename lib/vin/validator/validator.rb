@@ -185,9 +185,9 @@ module Validator
     end
 
     def validate_wines(wines, errors)
-        if !wines
+        if !wines || wines == []
           errors << (Error.new 27, "At least one wine is required.")
-          return
+          return errors
         end
         wines.each_with_index do |e, index|
           validate_wine e, errors, index+1
