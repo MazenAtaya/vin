@@ -6,7 +6,7 @@ module Validator
   @@DAYS = [:Mon, :Tue, :Wed, :Thu, :Fri, :Sat ]
   @@TIMES = [:AM, :PM]
   @@SELECTIONS = [:AR, :AW, :RW]
-  @@MONTHS = [:Jan,	:Feb,	:Mar,	:Apr,	:May,	:June, :July,	:Aug,	:Sept,	:Oct,	:Nov,	:Dec]
+  @@MONTHS = [:Jan,	:Feb,	:Mar,	:Apr,	:May,	:June, :July,	:Aug,	:Sep,	:Oct,	:Nov,	:Dec]
   @@STATUSES = [:Pending, :Delivered, :Returned, :Cancelled]
 
   class << self

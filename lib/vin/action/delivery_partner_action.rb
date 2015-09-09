@@ -73,7 +73,7 @@ class DeliveryPartnerAction
   end
 
   def mark_shipment_as_received(sub)
-    month = Date::MONTHNAMES[Date.today.month][0..2].to_sym
+    month = Time.now.strftime("%b").to_sym
     year =  Time.now.year
     ship = sub.shipments.find do |ship|
       ship.month == month && ship.year == year
