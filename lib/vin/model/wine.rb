@@ -89,7 +89,7 @@ def get_note(nid)
 end
 
 def self.from_h(wine_hash)
-  Wine.new wine_hash['label_name'], wine_hash['type'], wine_hash['variety'], wine_hash['grape'], wine_hash['region'], wine_hash['country'], wine_hash['maker'], wine_hash['year']
+  Wine.new wine_hash['label_name'], wine_hash['wine_type'], wine_hash['variety'], wine_hash['grape'], wine_hash['region'], wine_hash['country'], wine_hash['maker'], wine_hash['year']
 end
 
 
