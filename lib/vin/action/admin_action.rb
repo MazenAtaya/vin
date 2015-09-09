@@ -76,7 +76,7 @@ class AdminAction
       wines = []
       wines = monthly_selection['wines'].map { |wine| Wine.from_h wine }
       month, year = monthly_selection['selection_month'].split '/'
-      m_s = MonthlySelection.new month, year, monthly_selection['type'], wines
+      m_s = MonthlySelection.new month.capitalize.to_sym, year.to_i, monthly_selection['type'], wines
       monthly_selections << m_s
       wines.each {|w| wine_club_wines.push w}
       m_s_id = m_s.id
