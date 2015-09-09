@@ -48,7 +48,16 @@ describe AdminAction do
 
   it 'should add the monthly selection when it is valid' do
     monthly_selections = []
-    result = @admin_action.add_monthly_selection monthly_selections, {'type' => "AR", 'selection_month'=> 'Feb/2015', 'wines' => []}, []
+    result = @admin_action.add_monthly_selection monthly_selections, {'type' => "AR", 'selection_month'=> 'Feb/2015', 'wines' => [{
+        "variety" => "RED",
+          "wine_type" => "TABLE",
+          "label_name"=> "The Mission",
+          "grape" => "Merlot",
+          "region" => "Napa",
+          "country" => "USA",
+          "maker" => "Sterling",
+          "year" => "2014"
+      }] }, []
     expect(monthly_selections.length).to eq(1)
   end
 

@@ -54,4 +54,28 @@ describe Wine do
     expect(@wine.is_match? "20").to eq(true)
   end
 
+  it 'Should add the wine rating when it is valid' do
+    wine = Wine.new
+    wine.add_rating 9
+    expect(wine.rating).to eq(9)
+  end
+  it 'Should not add the rating if it is not valid' do
+    wine = Wine.new
+    wine.add_rating 11
+    expect(wine.rating).to eq(0)
+  end
+
+  it 'Should delete the wine note when it exists' do
+    wine = Wine.new
+    note = Note.new "This is a note"
+    wine.add_note note
+    wine.delete_note note.id
+    expect(wine.notes.length).to eq(0)
+  end
+
+  it 'Should know how to create a wine from a hash' do
+    wine = Wine.from_h({'label_name' => 'The Mission', 'wine_type' => 'table', 'variety' => 'red' })
+    expect(wine.class).to eq(Wine)
+  end
+
 end

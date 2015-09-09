@@ -31,4 +31,11 @@ describe DeliveryPartnerAction do
     expect(response['id']).to eq(receipt.id)
   end
 
+  it 'Should add the receipt when it is valid' do
+    receipts = []
+    receipt_hash = {'name' => "Mazen"}
+    response = DeliveryPartnerAction.new.add_receipt [@sub], receipts, receipt_hash
+    expect(receipts.length).to eq(1)
+  end
+
 end

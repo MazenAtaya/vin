@@ -264,5 +264,68 @@ describe SubscriberAction do
     expect(response["shipments"].length).to eq(1)
   end
 
+  it 'should update the shipment info when it is valid' do
+    shipment = Shipment.new :FEB, '2015'
+    @subscriber.add_shipment shipment
+    response = @sub_action.update_shipment_info [@subscriber], @subscriber.id, shipment.id, {'delivery_day' => 'Tue', "time_of_day" => 'PM'}
+    expect(response['errors'].length).to eq(0)
+  end
+
+  it 'Should get the wine note when the id of the note is valid' do
+    shipment1 = Shipment.new :FEB, '2015'
+    wine = Wine.new
+    note = Note.new "This is a note"
+    wine.add_note note
+    shipment1.wines = [wine]
+    @subscriber.add_shipment shipment1
+    result = @sub_action.get_wine_note [@subscriber], @subscriber.id, wine.id, note.id
+    expect(result['content']).to eq("This is a note")
+  end
+
+  it 'Should get the wine notes when the id of the wine is valid' do
+    shipment1 = Shipment.new :FEB, '2015'
+    wine = Wine.new
+    note = Note.new "This is a note"
+    wine.add_note note
+    shipment1.wines = [wine]
+    @subscriber.add_shipment shipment1
+    result = @sub_action.get_wine_notes [@subscriber], @subscriber.id, wine.id
+    expect(result['notes'].length).to eq(1)
+  end
+
+  it 'Should add a note to a wine when the wine id is valid' do
+    shipment1 = Shipment.new :FEB, '2015'
+    wine = Wine.new
+    note = Note.new "This is a note"
+    shipment1.wines = [wine]
+    @subscriber.add_shipment shipment1
+    result = @sub_action.add_note_to_wine [@subscriber], @subscriber.id, wine.id, {'content' => "This is a note"}
+    expect(wine.notes.length).to eq(1)
+  end
+
+  it 'Should update a shipment note if the id is valid' do
+    shipment1 = Shipment.new :FEB, '2015'
+    note = Note.new "This is a note"
+    shipment1.add_note note
+    @subscriber.add_shipment shipment1
+    @sub_action.update_note [@subscriber], @subscriber.id,shipment1.id, note.id, {'content' => 'This is not a note'}
+    expect(note.content).to eq('This is not a note')
+  end
+
+  it 'Should return the notes of a shipment if the id is valid' do
+    shipment1 = Shipment.new :FEB, '2015'
+    note = Note.new "This is a note"
+    shipment1.add_note note
+    @subscriber.add_shipment shipment1
+    result = @sub_action.get_ship_notes [@subscriber], @subscriber.id,shipment1.id
+    expect(result['notes'].length).to eq(1)
+  end
+
+  it 'Should add a note to a shipment if it is valid' do
+    shipment1 = Shipment.new :FEB, '2015'
+    @subscriber.add_shipment shipment1
+    @sub_action.add_note_to_ship [@subscriber], @subscriber.id,shipment1.id, {'content' => 'this is a note'}
+    expect(shipment1.notes.length).to eq(1)
+  end
 
 end

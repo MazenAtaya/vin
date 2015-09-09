@@ -89,4 +89,50 @@ describe Validator do
     expect(errors.length).to eq(1)
   end
 
+  it 'Should accept wine when it is valid' do
+    errors = Validator.validate_wine ({'label_name' =>"The Mission", 'variety' => 'variety', 'wine_type' => 'wine_type', 'grape' => 'grape', 'region' => 'region', 'country'=> 'country', 'maker'=>'maker', 'year'=> '2015'}), [], 0
+    expect(errors.length).to eq(0)
+  end
+
+  it 'Should accept a day when it is valid' do
+    errors = Validator.validate_day 'Tue', []
+    expect(errors.length).to eq(0)
+  end
+
+  it 'Should not accept a day when it is null' do
+    errors = Validator.validate_day nil, []
+    expect(errors.length).to eq(1)
+  end
+  it 'Should not accept a day when it is Sunday' do
+    errors = Validator.validate_day 'sun', []
+    expect(errors.length).to eq(1)
+  end
+  it 'Should not accept a day when it is not valid' do
+    errors = Validator.validate_day 'not_valids', []
+    expect(errors.length).to eq(1)
+  end
+  it 'Should not accept a time when it null' do
+    errors = Validator.validate_time nil, []
+    expect(errors.length).to eq(1)
+  end
+  it 'Should not accept a time when it not valid' do
+    errors = Validator.validate_time 'not_valid', []
+    expect(errors.length).to eq(1)
+  end
+  it 'Should accept a time when it is valid' do
+    errors = Validator.validate_time 'am', []
+    expect(errors.length).to eq(0)
+  end
+
+  it 'should accept delivery when it is valid' do
+    errors = Validator.validate_delivery ({'dow' => 'Tue', 'tod' => 'AM'})
+    expect(errors.length).to eq(0)
+  end
+
+  it 'Should not accepts wine when it is nil' do
+    errors = Validator.validate_wines [], []
+    expect(errors.length).to eq(1)
+  end
+
+
 end
