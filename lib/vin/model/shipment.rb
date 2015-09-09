@@ -49,7 +49,7 @@ class Shipment
   def to_h
     {
       'id' => @id,
-      'selection_month' => @month.to_s + '/' + @year,
+      'selection_month' => @month.to_s + '/' + @year.to_s,
       'status' => @status.to_s,
       'date' => @date.strftime("%d-%m-%Y"),
       'type' => @type.to_s,
