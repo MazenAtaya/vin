@@ -149,6 +149,15 @@ class << self
     def validate_admin(admin)
       errors = []
       errors = validate_name admin['name'], errors
+      errors = validate_admin_name['name'], admins.map { |e| e.name  }, errors
+    end
+
+    def validate_admin_name(name, names, errors)
+      found_it = names.any? { |e| e.downcase == name.downcase }
+      if found_it
+        errors << (Error.new 32, "There is already an admin with that name")
+      end
+      errors
     end
 
     def validate_wine(wine, errors, wine_number)
