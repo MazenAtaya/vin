@@ -146,7 +146,7 @@ class << self
       errors
     end
 
-    def validate_admin(admin)
+    def validate_admin(admin, admins)
       errors = []
       errors = validate_name admin['name'], errors
       errors = validate_admin_name admin['name'], admins.map { |e| e.name  }, errors

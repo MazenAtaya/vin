@@ -24,7 +24,7 @@ class AdminAction
     errors = []
     admin = find_object_by_id admins, admin_id
     if admin
-      errors = Validator::validate_admin admin_hash
+      errors = Validator::validate_admin admin_hash, admins
       if errors.length == 0
         admin.name = admin_hash['name']
       end
