@@ -104,9 +104,8 @@ class SubscriberAction
         ship.add_note note
         id = note.id
       end
+      {'id' => id, 'errors' => errors }
     end
-
-    ship ? {'id' => id, 'errors' => errors } : nil
   end
 
   def get_note(subscribers, sub_id, ship_id, note_id)
@@ -127,10 +126,13 @@ class SubscriberAction
     if sub
         note = sub.get_shipment_note sid, nid
         if note
-          note.content = note_hash['content']
+          errors = Validator.validate_note note_hash
+          if errors.length == 0
+            note.content = note_hash['content']
+          end
+          {'errors' => errors}
         end
     end
-    note ? {"message" => "success"} : nil
   end
 
   def delete_note(subs, sub_id, ship_id, note_id)
@@ -189,9 +191,9 @@ class SubscriberAction
           wine.add_note(note)
           id = note.id
         end
+        {'id' => id, 'errors' => errors }
       end
     end
-    wine ? {'id' => id, 'errors' => errors } : nil
   end
 
   def get_wine_note(subs, sub_id, wine_id, note_id)
@@ -215,11 +217,14 @@ class SubscriberAction
       if wine
         note = wine.get_note note_id
         if note
-          note.content = note_hash['content']
+          errors = Validator.validate_note note_hash
+          if errors.length == 0
+            note.content = note_hash['content']
+          end
+          {'errors' => errors}
         end
       end
     end
-    note ? {'message' => "success"} : nil
   end
 
   def delete_wine_note(subs, sub_id, wine_id, note_id)
