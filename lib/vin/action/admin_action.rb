@@ -5,7 +5,7 @@ class AdminAction
 
   def add_admin(admins, admin_hash)
     id = ""
-    errors = Validator::validate_admin admin_hash
+    errors = Validator::validate_admin admin_hash, admins
     if errors.length == 0
       admin = Admin.new admin_hash['name']
       admins << admin
