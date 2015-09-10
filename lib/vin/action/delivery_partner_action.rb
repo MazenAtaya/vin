@@ -9,7 +9,12 @@ class DeliveryPartnerAction
       sub.shipments.none? do |e|
         e.month == monthly_selection.month && e.year == monthly_selection.year
       end
-   end
+    end
+
+    if !monthly_selection
+      subs = []
+    end
+
     subs.each do |sub|
       shipment = Shipment.new monthly_selection.month, monthly_selection.year
       shipment.type = sub.delivery.selection_type
@@ -62,13 +67,13 @@ class DeliveryPartnerAction
   def get_receipts(receipts)
     {
       'receipts' => receipts.map { |e|
-              {
-                'id' => e.id,
-                'date' => e.date,
-                'subscriber' => e.sub_id,
-                'name' => e.sub_name
-              }
-            }
+        {
+          'id' => e.id,
+          'date' => e.date,
+          'subscriber' => e.sub_id,
+          'name' => e.sub_name
+        }
+      }
     }
   end
 
