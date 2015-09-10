@@ -1,15 +1,10 @@
 require 'phonelib'
+require 'vin/validator/constants'
 module Validator
 
-  @@NAME_MIN_LENGTH = 3
-  @@NAME_MAX_LENGTH = 50
-  @@DAYS = [:Mon, :Tue, :Wed, :Thu, :Fri, :Sat ]
-  @@TIMES = [:AM, :PM]
-  @@SELECTIONS = [:AR, :AW, :RW]
-  @@MONTHS = [:Jan,	:Feb,	:Mar,	:Apr,	:May,	:June, :July,	:Aug,	:Sep,	:Oct,	:Nov,	:Dec]
-  @@STATUSES = [:Pending, :Delivered, :Returned, :Cancelled]
+include Constants
 
-  class << self
+class << self
 
     def validate_name (name, errors)
       if (name)
@@ -59,10 +54,14 @@ module Validator
           errors << (Error.new 9, "street is required")
         end
         if (!address['city'] || address['city'].length == 0)
-          errors << (Error.new 9, "street is required")
+          errors << (Error.new 9, "city is required")
         end
         if (!address['state'] || address['state'].length == 0)
           errors << (Error.new 9, "state is required")
+        elsif @@BANNED_STATES.any? { |e| e.downcase == address['state'].downcase  }
+          errors << (Error.new 28, "We cannot ship to that state")
+        elsif @@STATES.none? { |e| e.downcase == address['state'].downcase  }
+          errors << (Error.new 29, "We could not recognize this state")
         end
         if (!address['zip'] || address['zip'].length == 0)
           errors << (Error.new 9, "zip is required")
