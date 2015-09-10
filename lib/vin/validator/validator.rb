@@ -149,7 +149,7 @@ class << self
     def validate_admin(admin)
       errors = []
       errors = validate_name admin['name'], errors
-      errors = validate_admin_name['name'], admins.map { |e| e.name  }, errors
+      errors = validate_admin_name admin['name'], admins.map { |e| e.name  }, errors
     end
 
     def validate_admin_name(name, names, errors)
