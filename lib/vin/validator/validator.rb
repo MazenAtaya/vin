@@ -247,6 +247,22 @@ class << self
       errors
     end
 
+    def validate_note(note_hash)
+      errors = []
+      if note_hash
+        if !note_hash["content"]
+          errors << (Error.new 30, "content cannot be empty")
+        elsif note_hash['content'].length < @@NOTE_MIN_LENGTH
+          errors << (Error.new 31, "content cannot be less than #{@@NOTE_MIN_LENGTH}")
+        elsif note_hash['content'].length > @@NOTE_MAX_LENGTH
+          errors << (Error.new 31, "content cannot be more than #{@@NOTE_MAX_LENGTH}")
+        end
+      end
+      errors
+    end
+
+
+
   end
 
 end
