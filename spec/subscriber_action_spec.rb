@@ -27,6 +27,7 @@ describe SubscriberAction do
 
     @subs = Array.new
     @sub_action = SubscriberAction.new
+    @note_hash = {'content' => "this is a valid note and it should be added to either a wine or a shipment successfully because its length is more than the minimum and less than the maximum"}
   end
 
   it 'shoud just work' do
@@ -299,7 +300,7 @@ describe SubscriberAction do
     note = Note.new "This is a note"
     shipment1.wines = [wine]
     @subscriber.add_shipment shipment1
-    result = @sub_action.add_note_to_wine [@subscriber], @subscriber.id, wine.id, {'content' => "This is a note"}
+    result = @sub_action.add_note_to_wine [@subscriber], @subscriber.id, wine.id, @note_hash
     expect(wine.notes.length).to eq(1)
   end
 
@@ -308,8 +309,8 @@ describe SubscriberAction do
     note = Note.new "This is a note"
     shipment1.add_note note
     @subscriber.add_shipment shipment1
-    @sub_action.update_note [@subscriber], @subscriber.id,shipment1.id, note.id, {'content' => 'This is not a note'}
-    expect(note.content).to eq('This is not a note')
+    @sub_action.update_note [@subscriber], @subscriber.id,shipment1.id, note.id, @note_hash
+    expect(note.content).to eq(@note_hash['content'])
   end
 
   it 'Should return the notes of a shipment if the id is valid' do
@@ -317,15 +318,41 @@ describe SubscriberAction do
     note = Note.new "This is a note"
     shipment1.add_note note
     @subscriber.add_shipment shipment1
-    result = @sub_action.get_ship_notes [@subscriber], @subscriber.id,shipment1.id
+    result = @sub_action.get_ship_notes [@subscriber], @subscriber.id, shipment1.id
     expect(result['notes'].length).to eq(1)
   end
 
   it 'Should add a note to a shipment if it is valid' do
     shipment1 = Shipment.new :FEB, '2015'
     @subscriber.add_shipment shipment1
-    @sub_action.add_note_to_ship [@subscriber], @subscriber.id,shipment1.id, {'content' => 'this is a note'}
+    @sub_action.add_note_to_ship [@subscriber], @subscriber.id,shipment1.id, @note_hash
     expect(shipment1.notes.length).to eq(1)
+  end
+
+  it 'Should reject a note if it is too short' do
+    shipment1 = Shipment.new :FEB, '2015'
+    @subscriber.add_shipment shipment1
+    @sub_action.add_note_to_ship [@subscriber], @subscriber.id,shipment1.id, {'content' => 'this is an invalid note'}
+    expect(shipment1.notes.length).to eq(0)
+  end
+  it 'Should reject a note if it is too long' do
+    shipment1 = Shipment.new :FEB, '2015'
+    @subscriber.add_shipment shipment1
+    @sub_action.add_note_to_ship [@subscriber], @subscriber.id,shipment1.id, {'content' => 'a' * 1025 }
+    expect(shipment1.notes.length).to eq(0)
+  end
+
+  it 'Should reject a note if it is empty' do
+    shipment1 = Shipment.new :FEB, '2015'
+    @subscriber.add_shipment shipment1
+    @sub_action.add_note_to_ship [@subscriber], @subscriber.id,shipment1.id, {'content' => '' }
+    expect(shipment1.notes.length).to eq(0)
+  end
+  it 'Should reject a note if it is null' do
+    shipment1 = Shipment.new :FEB, '2015'
+    @subscriber.add_shipment shipment1
+    @sub_action.add_note_to_ship [@subscriber], @subscriber.id,shipment1.id, {}
+    expect(shipment1.notes.length).to eq(0)
   end
 
 end

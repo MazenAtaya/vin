@@ -92,17 +92,21 @@ class SubscriberAction
 
   def add_note_to_ship(subscribers, sub_id, ship_id, note_hash)
     ship = nil
-    note = nil
+    id = ""
     sub = find_object_by_id subscribers, sub_id
     if sub
       ship = find_object_by_id sub.shipments, ship_id
     end
     if ship
-      note = Note.new note_hash['content']
-      ship.add_note note
+      errors = Validator.validate_note note_hash
+      if errors.length == 0
+        note = Note.new note_hash['content']
+        ship.add_note note
+        id = note.id
+      end
     end
 
-    note ? {'id' => note.id} : nil
+    ship ? {'id' => id, 'errors' => errors } : nil
   end
 
   def get_note(subscribers, sub_id, ship_id, note_id)
@@ -173,16 +177,21 @@ class SubscriberAction
   end
 
   def add_note_to_wine(subs, sub_id, wine_id, note_hash)
-    note = nil
+    id = ""
+    wine = nil
     sub = find_object_by_id subs, sub_id
     if sub
       wine = sub.get_wine wine_id
       if wine
-        note = Note.new note_hash['content']
-        wine.add_note(note)
+        errors = Validator.validate_note note_hash
+        if errors.length == 0
+          note = Note.new note_hash['content']
+          wine.add_note(note)
+          id = note.id
+        end
       end
     end
-    note ? {'id' => note.id } : nil
+    wine ? {'id' => id, 'errors' => errors } : nil
   end
 
   def get_wine_note(subs, sub_id, wine_id, note_id)
