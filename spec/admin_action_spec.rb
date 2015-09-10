@@ -38,7 +38,7 @@ describe AdminAction do
 
   it 'should return the monthly selection' do
     result = @admin_action.get_monthly_selection [], 1
-    expect(result).to eq({})
+    expect(result).to be_nil()
   end
 
   it 'should return all the monthly selections' do
