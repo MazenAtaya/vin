@@ -84,4 +84,8 @@ class AdminAction
     {'id' => m_s_id, 'errors' => errors}
   end
 
+  def get_subscribers_number(subs)
+    {'num_of_subs' => subs.length}
+  end
+
 end
