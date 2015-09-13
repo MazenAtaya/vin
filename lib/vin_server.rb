@@ -37,13 +37,6 @@ end
 post '/vin/sub' do
   sub = parse_json request.body
   response = wc.subscriber_action.add_sub(wc.subscribers, sub);
-  ship = Shipment.new :AUG, "2015"
-  ship.status = :Delivered
-  ship1 = Shipment.new :JAN, "2015"
-  ship1.status = :Pending
-  ship.wines = [Wine.new, Wine.new, Wine.new]
-  #wc.subscribers[0].add_shipment ship
-  #wc.subscribers[0].add_shipment ship1
 
   if response['id'] != ""
     status 201
