@@ -252,7 +252,7 @@ get '/vin/admin/:id' do
 end
 
 get '/vin/revenue' do
-  response = wc.admin_action.get_revenue wc.subscribers
+  response = wc.admin_action.get_revenue wc.subscribers, params[:start], params[:end]
   response.to_json
 end
 
@@ -332,7 +332,7 @@ get '/vin/admin/number/of/subscribers' do
 end
 
 post '/vin/sub/:id/delete' do
-  response = wc.subscriber_action.delete_sub wc.subscribers, params[:id].to_i
+  response = wc.subscriber_action.delete_sub wc.subscribers, params[:id].to_i, wc.deleted_subscribers
   return response.to_json unless response == nil
   not_found '{ "error": "id is not found or invalid"}'
 end
