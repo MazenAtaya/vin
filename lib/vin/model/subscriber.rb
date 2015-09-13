@@ -4,6 +4,7 @@ class Subscriber
   attr_accessor :name, :email, :address, :phone, :facebook, :twitter
   attr_accessor :delivery
   attr_accessor :shipments
+  attr_accessor :create_date
 
   def initialize (name, email, address, phone, facebook="", twitter="")
     @id = @@ID
@@ -16,6 +17,7 @@ class Subscriber
     @twitter = twitter
     @delivery = Delivery.new
     @shipments = Array.new
+    @create_date = Time.now
   end
 
   def add_shipment(shipment)
