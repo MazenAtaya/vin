@@ -331,8 +331,8 @@ get '/vin/admin/number/of/subscribers' do
   response.to_json
 end
 
-get '/vin/sub/:id/delete' do
-  response = wc.admin_action.delete_sub wc.subscribers, params[:id].to_i
+post '/vin/sub/:id/delete' do
+  response = wc.subscriber_action.delete_sub wc.subscribers, params[:id].to_i
   response.to_json unless response == nil
   not_found '{ "error": "id is not found or invalid"}'
 end
