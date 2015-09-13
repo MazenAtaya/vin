@@ -52,7 +52,7 @@ class AdminAction
 
     subscribers.each do |sub|
       sub.shipments.each do |ship|
-        if ship.status == :Delivered && Date.parse(ship.date) >= from && Date.parse(ship.date <= to
+        if ship.status == :Delivered && Date.parse(ship.date) >= from && Date.parse(ship.date) <= to
           units_delivered += ship.number_of_boxes
           wine_revenue += ship.total_cost
           delivery_revenue += ship.delivery_charge
