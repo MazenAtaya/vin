@@ -329,10 +329,11 @@ class SubscriberAction
     end
   end
 
-  def delete_sub(subs, sub_id)
+  def delete_sub(subs, sub_id, deleted_subscribers)
     sub = find_object_by_id subs, sub_id
     if sub
       subs.delete sub
+      deleted_subscribers << {'name' => sub.name, 'deletion_date' => Time.now}
       {'message' => 'success'}
     end
   end

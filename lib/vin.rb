@@ -22,6 +22,7 @@ module Vin
   attr_accessor :subscribers, :admins, :receipts, :monthly_selections, :wines
   attr_accessor :subscriber_action, :admin_action, :deliver_action
   attr_accessor :box_price, :delivery_charge
+  attr_accessor :deleted_subscribers
 
   def initialize()
     @subscribers = Array.new
@@ -34,7 +35,8 @@ module Vin
     @wines = Array.new
     @box_price = 49.99
     @delivery_charge = 9.99
+    @deleted_subscribers = []
   end
-  
+
   end
 end

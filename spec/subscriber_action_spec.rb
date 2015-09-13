@@ -356,9 +356,16 @@ describe SubscriberAction do
   end
   it 'should delete the sub when it exists' do
     subs = [@subscriber]
-    result = @sub_action.delete_sub subs, @subscriber.id
+    result = @sub_action.delete_sub subs, @subscriber.id, []
     expect(result['message']).to eq('success')
     expect(subs.length).to eq(0)
+  end
+
+  it 'should add the deleted sub to the array of deleted subs' do
+    subs = [@subscriber]
+    deleted_subscribers = []
+    @sub_action.delete_sub subs, @subscriber.id, deleted_subscribers
+    expect(deleted_subscribers[0]['deletion_date']).to_not be_nil
   end
 
 end

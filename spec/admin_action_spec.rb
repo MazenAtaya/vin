@@ -32,7 +32,7 @@ describe AdminAction do
     expect(admins['admins'].length).to eq(2)
   end
   it 'should return the revenue' do
-    result = @admin_action.get_revenue  []
+    result = @admin_action.get_revenue  [], nil, nil
     expect(result['wine_revenue']).to eq(0)
   end
 

@@ -36,13 +36,23 @@ class AdminAction
     {'admins' => admins.map { |e| {'id' => e.id, 'name' => e.name} }}
   end
 
-  def get_revenue(subscribers)
+  def get_revenue(subscribers, from, to)
+    begin
+      from = Date.strptime(from, "%Y%m%d")
+      rescue
+        from = Date.new
+      end
+    begin
+      to = Date.strptime(to, "%Y%m%d")
+      rescue
+        from = Date.today
+      end
 
     units_delivered, units_returned, wine_revenue, delivery_revenue  = 0, 0, 0, 0
 
     subscribers.each do |sub|
       sub.shipments.each do |ship|
-        if ship.status == :Delivered
+        if ship.status == :Delivered && ship.date.to_date >= from && ship.date.to_date <= to
           units_delivered += ship.number_of_boxes
           wine_revenue += ship.total_cost
           delivery_revenue += ship.delivery_charge
@@ -86,6 +96,10 @@ class AdminAction
 
   def get_subscribers_number(subs)
     {'num_of_subs' => subs.length}
+  end
+
+  def get_new_subscribers_number()
+
   end
 
 end
