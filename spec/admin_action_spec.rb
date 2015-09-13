@@ -61,4 +61,9 @@ describe AdminAction do
     expect(monthly_selections.length).to eq(1)
   end
 
+  it 'Should return the number of subscribers' do
+    result = @admin_action.get_subscribers_number [1,2,3,4,5]
+    expect(result['num_of_subs']).to eq(5)
+  end
+
 end

@@ -354,5 +354,11 @@ describe SubscriberAction do
     @sub_action.add_note_to_ship [@subscriber], @subscriber.id,shipment1.id, {}
     expect(shipment1.notes.length).to eq(0)
   end
+  it 'should delete the sub when it exists' do
+    subs = [@subscriber]
+    result = @sub_action.delete_sub subs, @subscriber.id
+    expect(result['message']).to eq('success')
+    expect(subs.length).to eq(0)
+  end
 
 end
