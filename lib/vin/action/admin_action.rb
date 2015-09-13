@@ -39,12 +39,12 @@ class AdminAction
   def get_revenue(subscribers, from, to)
     begin
       from = Date.strptime(from, "%Y%m%d")
-      rescue
+    rescue Exception
         from = Date.new
       end
     begin
       to = Date.strptime(to, "%Y%m%d")
-      rescue
+    rescue Exception
         from = Date.today
       end
 
