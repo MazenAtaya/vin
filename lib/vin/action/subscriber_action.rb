@@ -329,4 +329,12 @@ class SubscriberAction
     end
   end
 
+  def delete_sub(subs, sub_id)
+    sub = find_object_by_id sub_id
+    if sub
+      subs.delete sub
+      {'message' => 'success'}
+    end
+  end
+
 end
