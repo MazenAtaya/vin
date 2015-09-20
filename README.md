@@ -25,7 +25,7 @@ Install the gem:
 ## Show the cyclomatic complexity of a file:
 
     $ gem install metric_fu-Saikuro
-    $  saikuro -c -p lib/vin/model/delivery.rb
+    $ saikuro -c -p lib/vin/model/delivery.rb
 
 The result will be in an HTML file in the same directory
 
