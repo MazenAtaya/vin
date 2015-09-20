@@ -12,7 +12,10 @@ Build the gem:
 
     $ cd vin
     $ bundle install
-    $ gem build vin.gemspec	
+    $ gem build vin.gemspec
+
+Install the gem:
+
     $ sudo gem install vin-0.1.0.gem
 
 ## Run the tests and show the coverage:
