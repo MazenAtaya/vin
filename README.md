@@ -21,6 +21,13 @@ Install the gem:
 ## Run the tests and show the coverage:
 
     $ rspec
+    
+## Show the cyclomatic complexity of a file:
+
+    $ gem install metric_fu-Saikuro
+    $  saikuro -c -p lib/vin/model/delivery.rb
+
+The result will be in an HTML file in the same directory
 
 ## Run the server:
 
