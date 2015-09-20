@@ -1,28 +1,29 @@
 # Vin
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/vin`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This is a wine club. Customers can subscriber to receive monthly deliveries of wine. They can do things like rating wines, adding private notes to their deliveries, and changing the delivery size. A delivery partner uses the software to get a list of the customers to deliver to.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Clone the project:
 
-```ruby
-gem 'vin'
-```
+    $ git clone https://github.com/mazen555/vin.git
 
-And then execute:
+Build the gem:
 
-    $ bundle
+    $ cd vin
+    $ bundle install
+    $ gem build vin.gemspec	
+    $ sudo gem install vin-0.1.0.gem
 
-Or install it yourself as:
+## Run the tests and show the coverage:
 
-    $ gem install vin
+    $ rspec
 
-## Usage
+## Run the server:
 
-TODO: Write usage instructions here
+    $ cd lib/
+    $ ruby vin_server.rb
+
 
 ## Development
 
