@@ -4,7 +4,7 @@ This is a wine club. Customers can subscriber to receive monthly deliveries of w
 
 ## Installation
 
-Clone the project:
+Download the project:
 
     $ git clone https://github.com/mazen555/vin.git
 
@@ -23,6 +23,8 @@ Build the gem:
 
     $ cd lib/
     $ ruby vin_server.rb
+
+You now have an HTTP server running on port 8080 that is ready to accept requests.
 
 
 ## Development
