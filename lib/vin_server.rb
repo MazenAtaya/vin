@@ -245,10 +245,15 @@ post '/vin/admin' do
 end
 
 get '/vin/admin/:id' do
-  id = params[:id].to_i
-  response = wc.admin_action.get_admin wc.admins, id
-  return response.to_json unless !response
-  not_found '{ "error": "id is not found or invalid"}'
+  if params[:id].eql("revenue")
+    response = wc.admin_action.get_revenue wc.subscribers, params[:start], params[:end]
+    response.to_json
+  else
+    id = params[:id].to_i
+    response = wc.admin_action.get_admin wc.admins, id
+    return response.to_json unless !response
+    not_found '{ "error": "id is not found or invalid"}'
+  end
 end
 
 get '/vin/revenue' do
