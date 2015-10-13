@@ -245,7 +245,7 @@ post '/vin/admin' do
 end
 
 get '/vin/admin/:id' do
-  if params[:id].eql("revenue")
+  if params[:id].eql?("revenue")
     response = wc.admin_action.get_revenue wc.subscribers, params[:start], params[:end]
     response.to_json
   else
