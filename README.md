@@ -1,4 +1,4 @@
-# Vin
+# Vin [![Build Status](https://travis-ci.org/mazen555/vin.svg?branch=master)](https://travis-ci.org/mazen555/vin)
 
 This is a wine club. Customers can subscriber to receive monthly deliveries of wine. They can do things like rating wines, adding private notes to their deliveries, and changing the delivery size. A delivery partner uses the software to get a list of the customers to deliver to.
 
